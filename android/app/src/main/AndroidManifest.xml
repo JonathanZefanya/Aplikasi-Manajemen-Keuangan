@@ -2,7 +2,7 @@
     <application
         android:label="TANGAN: Catatan Keuangan"
         android:name="${applicationName}"
-        android:icon="@mipmap/logo">
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:exported="true"
