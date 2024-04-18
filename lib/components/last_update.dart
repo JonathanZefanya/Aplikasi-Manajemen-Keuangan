@@ -40,13 +40,13 @@ class LastUpdate extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
-              Text('MajalengkaDev', style: TextStyle(color: Colors.black54)),
+              Text('NoirDev', style: TextStyle(color: Colors.black54)),
               GestureDetector(
                 onTap: () {
-                  _launchURL('https://majalengkadev.github.io');
+                  _launchURL('https://jojo.tirtagt.xyz/#project');
                 },
                 child: Text(
-                  'https://majalengkadev.github.io',
+                  'NoirDev',
                   style: TextStyle(fontSize: 13, color: Colors.lightBlueAccent),
                 ),
               ),
