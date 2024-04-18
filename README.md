@@ -11,7 +11,7 @@ Fitur Yang Ada Adalah
 1. Pemasukan Keuangan
 2. Pengeluaran Keuangan
 3. Rekapan Hasil Transaksi
-4. Konversi Mata Uang (ongoing)
+4. Konversi Mata Uang (ongoing bejir)
 
 Credit:
 1. <a href="https://jojo.tirtagt.xyz" target="_blank">Jonathan Zefanya</a>
