@@ -72,10 +72,10 @@ class _ExchangePageState extends State<ExchangePage> {
 
   getData() {
     setState(() {
-      var url = "https://api.apilayer.com/exchangerates_data/latest?base=${origin.value}";
+      var url = "https://apilayer.com/fixer/latest?base=${origin.value}";
       future = dio
           .get(url, options: Options(headers: {
-            "apikey": "tcuBXTGjC4bEUCKHZIyLVv0d4qo1Yjfb"
+            "apikey": "OE7qhhGK6O6brifz9L6hD2K6fY1EfQtF"
           }))
           .then((resp) => ExchangeRates.fromJson(resp.data));
 
