@@ -7,10 +7,12 @@ import 'package:tangan/models/exchange_rates.dart';
 import 'package:tangan/pages/select_currency.dart';
 import 'package:tangan/utils/constant.dart';
 import 'package:flag/flag.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 //import 'package:flutter_money_formatter/flutter_money_formatter.dart';
 //import 'package:firebase_admob/firebase_admob.dart';
 import 'package:tangan/models/currency.dart';
+import 'setting_page.dart';
 
 class ExchangePage extends StatefulWidget {
   @override
@@ -72,10 +74,10 @@ class _ExchangePageState extends State<ExchangePage> {
 
   getData() {
     setState(() {
-      var url = "https://apilayer.com/fixer/latest?base=${origin.value}";
+      var url = "https://api.freecurrencyapi.com/v1/latest?apikey=fca_live_NtT2hzNdOgxNj3PVdPLFb2sHsYommRq57yZYuCtz";
       future = dio
           .get(url, options: Options(headers: {
-            "apikey": "OE7qhhGK6O6brifz9L6hD2K6fY1EfQtF"
+            "apikey": "fca_live_NtT2hzNdOgxNj3PVdPLFb2sHsYommRq57yZYuCtz"
           }))
           .then((resp) => ExchangeRates.fromJson(resp.data));
 
@@ -86,28 +88,34 @@ class _ExchangePageState extends State<ExchangePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 0,
-          title: Text(
-            "Kurs Mata Uang",
-            style: kTitleTextStyle,
-          ),
-          actions: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: InkWell(
-                  onTap: () {
-                    showInfo();
+        appBar: PreferredSize(
+        preferredSize:
+            Size.fromHeight(MediaQuery.of(context).size.height * 0.20),
+        child: Container(
+          color: primary,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(16, 50, 16, 16),
+            child: Row(
+              children: [
+                IconButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
                   },
-                  child: Icon(
-                    Icons.info_outline,
-                    color: Colors.lightBlueAccent,
-                  )),
-            )
-          ],
+                  icon: Icon(Icons.arrow_back_ios_new_sharp, color: base),
+                ),
+                Text(
+                  (lang == 0) ? "Kurs Mata Uang" : 'Convert Currency',
+                  style: GoogleFonts.inder(
+                    fontSize: 23,
+                    color: base,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
-        backgroundColor: Colors.white,
+      ),
+        backgroundColor: primary,
         body: Padding(
           padding: const EdgeInsets.only(bottom: 54),
           child: FutureBuilder<ExchangeRates>(
@@ -132,7 +140,7 @@ class _ExchangePageState extends State<ExchangePage> {
                     strokeWidth: 2,
                   ));
                 }
-              }),
+              }),     
         ));
   }
 

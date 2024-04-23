@@ -229,6 +229,7 @@ class _AboutState extends State<About> {
                                         ),
                                       ),
                                     ).animate().fadeIn().then(delay:100.ms,).slideX().then().shakeY(duration: 270.ms, amount: 1 ),
+                                    
                                     Container(
                                       width: MediaQuery.of(context).size.width *
                                           0.6,
@@ -387,6 +388,7 @@ class _AboutState extends State<About> {
                                         ),
                                       ),
                                     ).animate().fadeIn().then(delay:200.ms).slideX().then().shakeY( duration: 270.ms, amount: 1 ),
+
                                     Container(
                                       width: MediaQuery.of(context).size.width *
                                           0.6,
@@ -545,6 +547,7 @@ class _AboutState extends State<About> {
                                         ),
                                       ),
                                     ).animate().fadeIn().then(delay:300.ms).slideX().then().shakeY( duration: 270.ms, amount: 1),
+
                                     Container(
                                       width: MediaQuery.of(context).size.width *
                                           0.6,
@@ -705,6 +708,7 @@ class _AboutState extends State<About> {
                                         ),
                                       ),
                                     ).animate().fadeIn().then(delay:400.ms).slideX().then().shakeY( duration: 270.ms, amount: 1),
+
                                     Container(
                                       width: MediaQuery.of(context).size.width *
                                           0.6,
@@ -863,164 +867,7 @@ class _AboutState extends State<About> {
                                         ),
                                       ),
                                     ).animate().fadeIn().then(delay:500.ms).slideX().then().shakeY( duration: 270.ms, amount: 1),
-                                    Container(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.6,
-                                      height: 200,
-                                      decoration: BoxDecoration(
-                                        color: isDark ? card : Colors.white,
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: SingleChildScrollView(
-                                        child: Column(
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 10),
-                                              child: Container(
-                                                width: 100,
-                                                height: 100,
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(50),
-                                                  image: DecorationImage(
-                                                    image: AssetImage(
-                                                        'assets/img/nahida.png'),
-                                                    fit: BoxFit.fill,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            Divider(
-                                              color: isDark
-                                                  ? Colors.white
-                                                  : Colors.black,
-                                              thickness: 0.5,
-                                            ),
-                                            SingleChildScrollView(
-                                              scrollDirection: Axis.horizontal,
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 8.0),
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  children: [
-                                                    Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .end,
-                                                      children: [
-                                                        Text(
-                                                          (lang == 0)
-                                                              ? 'Nama : '
-                                                              : 'Name : ',
-                                                          style:
-                                                              GoogleFonts.inder(
-                                                            color: isDark
-                                                                ? Colors.white
-                                                                : Colors.black,
-                                                            fontSize: 14,
-                                                          ),
-                                                        ),
-                                                        Text(
-                                                          (lang == 0)
-                                                              ? 'NIM : '
-                                                              : 'NIM : ',
-                                                          style:
-                                                              GoogleFonts.inder(
-                                                            color: isDark
-                                                                ? Colors.white
-                                                                : Colors.black,
-                                                            fontSize: 14,
-                                                          ),
-                                                        ),
-                                                        Text(
-                                                          (lang == 0)
-                                                              ? 'Prodi : '
-                                                              : 'Major : ',
-                                                          style:
-                                                              GoogleFonts.inder(
-                                                            color: isDark
-                                                                ? Colors.white
-                                                                : Colors.black,
-                                                            fontSize: 14,
-                                                          ),
-                                                        ),
-                                                        Text(
-                                                          'Role : ',
-                                                          style:
-                                                              GoogleFonts.inder(
-                                                            color: isDark
-                                                                ? Colors.white
-                                                                : Colors.black,
-                                                            fontSize: 14,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Text(
-                                                          'Nahida: Lesser Lord Kussanali',
-                                                          style:
-                                                              GoogleFonts.inder(
-                                                            color: isDark
-                                                                ? Colors.white
-                                                                : Colors.black,
-                                                            fontSize: 14,
-                                                          ),
-                                                        ),
-                                                        Text(
-                                                          (lang == 0)
-                                                              ? 'None'
-                                                              : 'None',
-                                                          style:
-                                                              GoogleFonts.inder(
-                                                            color: isDark
-                                                                ? Colors.white
-                                                                : Colors.black,
-                                                            fontSize: 14,
-                                                          ),
-                                                        ),
-                                                        Text(
-                                                          (lang == 0)
-                                                              ? 'Dewa Tanaman'
-                                                              : 'Archon Dendro',
-                                                          style:
-                                                              GoogleFonts.inder(
-                                                            color: isDark
-                                                                ? Colors.white
-                                                                : Colors.black,
-                                                            fontSize: 14,
-                                                          ),
-                                                        ),
-                                                        Text(
-                                                          'Penyemangat Jonathan',
-                                                          style:
-                                                              GoogleFonts.inder(
-                                                            color: isDark
-                                                                ? Colors.white
-                                                                : Colors.black,
-                                                            fontSize: 14,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    )
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ).animate().fadeIn().then(delay:600.ms).slideX().then().shakeY( duration: 270.ms, amount: 1),
+
                                   ],
                                 ),
                               ],
