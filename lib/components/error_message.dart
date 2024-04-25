@@ -10,7 +10,7 @@ class ErrorMessage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Text("Upps error\n$msg"),
+        Text("Waduuh\n$msg"),
         OutlinedButton(
           onPressed: onPressed,
           child: Text(

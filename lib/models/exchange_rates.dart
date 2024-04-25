@@ -10,10 +10,10 @@ class ExchangeRates {
   });
 
   factory ExchangeRates.fromJson(Map<String, dynamic> json) => ExchangeRates(
-        rates: Map.from(json["rates"])
+        rates: Map.from(json["data"])
             .map((k, v) => MapEntry<String, double>(k, v.toDouble())),
-        base: json["base"],
-        date: json["date"],
+        base: "",
+        date: DateTime.now().toString(),
       );
 
   Map<String, dynamic> toJson() => {

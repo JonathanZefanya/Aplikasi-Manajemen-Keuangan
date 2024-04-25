@@ -9,9 +9,10 @@ import 'package:tangan/utils/constant.dart';
 import 'package:flag/flag.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
-//import 'package:flutter_money_formatter/flutter_money_formatter.dart';
+// import 'package:flutter_money_formatter/flutter_money_formatter.dart';
 //import 'package:firebase_admob/firebase_admob.dart';
 import 'package:tangan/models/currency.dart';
+import 'package:intl/intl.dart';
 import 'setting_page.dart';
 
 class ExchangePage extends StatefulWidget {
@@ -21,6 +22,7 @@ class ExchangePage extends StatefulWidget {
 
 class _ExchangePageState extends State<ExchangePage> {
   final Dio dio = Dio();
+  final oCcy = new NumberFormat("#,##0.00", "en_US");
   bool isLoading = true;
   late TextEditingController _controller;
   Currency origin = Currency(
@@ -110,16 +112,15 @@ class _ExchangePageState extends State<ExchangePage> {
                     color: base,
                   ),
                 ),
-              ],
+              ],  
             ),
           ),
-        ),
-      ),
-        backgroundColor: primary,
+        ),),
+        backgroundColor: Colors.white,
         body: Padding(
           padding: const EdgeInsets.only(bottom: 54),
           child: FutureBuilder<ExchangeRates>(
-              future: future,
+              future: future, 
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return showData(snapshot.data!);
@@ -348,7 +349,7 @@ class _ExchangePageState extends State<ExchangePage> {
                                 padding:
                                     const EdgeInsets.only(top: 12, left: 4),
                                 child: Text(
-                                  "${resultConvert}",
+                                  "${oCcy.format(resultConvert)}",
                                   // FlutterMoneyFormatter(
                                   //         amount: resultConvert,
                                   //         settings: MoneyFormatterSettings(
