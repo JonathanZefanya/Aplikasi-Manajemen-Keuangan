@@ -415,8 +415,8 @@ class _TransactionPageState extends State<TransactionPage> {
                                       initialEntryMode:
                                           DatePickerEntryMode.calendarOnly,
                                       initialDate: DateTime.now(),
-                                      firstDate: DateTime(2020),
-                                      lastDate: DateTime(2099),
+                                      firstDate: DateTime(2000),
+                                      lastDate: DateTime(2100),
                                       builder: (context, child) {
                                         return Theme(
                                           data: Theme.of(context).copyWith(

@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:tangan/models/currency.dart';
 import 'package:intl/intl.dart';
 import 'setting_page.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 class ExchangePage extends StatefulWidget {
   @override
@@ -115,8 +116,9 @@ class _ExchangePageState extends State<ExchangePage> {
               ],  
             ),
           ),
-        ),),
-        backgroundColor: Colors.white,
+        ),
+        ),
+        backgroundColor: isDark ? background : base,
         body: Padding(
           padding: const EdgeInsets.only(bottom: 54),
           child: FutureBuilder<ExchangeRates>(
@@ -155,6 +157,7 @@ class _ExchangePageState extends State<ExchangePage> {
               Column(
                 children: <Widget>[
                   Container(
+                    color: Color(0xfff6f6f6),
                     padding: const EdgeInsets.symmetric(
                         horizontal: 32, vertical: 32),
                     child: Row(
@@ -436,4 +439,64 @@ class _ExchangePageState extends State<ExchangePage> {
     super.dispose();
   }
   
+}
+
+class ConnectivityCheck extends StatefulWidget {
+  @override
+  _ConnectivityCheckState createState() => _ConnectivityCheckState();
+}
+
+class _ConnectivityCheckState extends State<ConnectivityCheck> {
+  ConnectivityResult _connectivityResult = ConnectivityResult.none;
+  final Connectivity _connectivity = Connectivity();
+
+  @override
+  void initState() {
+    super.initState();
+    _checkConnectivity();
+    _connectivity.onConnectivityChanged.listen((ConnectivityResult result) {
+      _updateConnectionStatus(result);
+    } as void Function(List<ConnectivityResult> event)?);
+  }
+
+  Future<void> _checkConnectivity() async {
+    ConnectivityResult result;
+    try {
+      result = (await _connectivity.checkConnectivity()) as ConnectivityResult;
+    } catch (e) {
+      result = ConnectivityResult.none;
+    }
+
+    if (!mounted) {
+      return;
+    }
+
+    _updateConnectionStatus(result);
+  }
+
+  void _updateConnectionStatus(ConnectivityResult result) {
+    setState(() {
+      _connectivityResult = result;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Connectivity Check'),
+      ),
+      body: Center(
+        child: _connectivityResult == ConnectivityResult.none
+            ? Text(
+                'Koneksi internet tidak ada',
+                style: TextStyle(fontSize: 24, color: Colors.red),
+              )
+            : Text(
+                'Koneksi internet tersedia',
+                style: TextStyle(fontSize: 24, color: Colors.green),
+              ),
+      ),
+    );
+  }
 }

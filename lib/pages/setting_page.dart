@@ -597,6 +597,39 @@ class _SettingPageState extends State<SettingPage> {
                                   }),
                             ]),
 
+                            // Laporan Keuangan konversi ke ruang negeri
+                            SizedBox(height: 18),
+                            Row(children: [
+                              Container(
+                                  decoration: BoxDecoration(
+                                      color: primary,
+                                      borderRadius: BorderRadius.circular(3)),
+                                  child: Icon(
+                                    Icons.money,
+                                    color: base,
+                                    size: 27,
+                                  )),
+                              SizedBox(width: 20),
+                              TextButton(
+                                  child: Text(
+                                    (lang == 0)
+                                        ? "Laporan Keuangan"
+                                        : 'Financial Report',
+                                    style: TextStyle(
+                                        color: isDark ? base : Colors.black),
+                                  ),
+                                  style: TextButton.styleFrom(
+                                      foregroundColor: Colors.black),
+                                  onPressed: () {
+                                    Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => RekapPage(
+                                        r: 1,
+                                      ),
+                                    ));
+                                  }),
+                            ]),
+
+                            // About Developer
                             SizedBox(height: 18),
                             Row(children: [
                               Container(

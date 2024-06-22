@@ -130,9 +130,10 @@ class _HomePageState extends State<HomePage> {
         : Scaffold(
             appBar: PreferredSize(
               preferredSize:
-                  Size.fromHeight(MediaQuery.of(context).size.height * 0.23),
+              // Atur page Calendar home
+                  Size.fromHeight(MediaQuery.of(context).size.height * 0.50),
               child: Container(
-                padding: EdgeInsets.fromLTRB(50, 50, 50, 5),
+                padding: EdgeInsets.fromLTRB(20, 15, 20, 5),
                 child: CalendarCarousel<Event>(
                   onDayPressed: (date, events) {
                     this.setState(() => selectedDate = date);
@@ -154,7 +155,8 @@ class _HomePageState extends State<HomePage> {
                   weekdayTextStyle:
                       GoogleFonts.inder(fontSize: 18, color: base),
                   locale: (lang == 0) ? 'id' : 'en',
-                  height: 200.0,
+                  // Atur Page Putih-Putih
+                  height: 205.0,
                   selectedDateTime: selectedDate,
                   showIconBehindDayText: true,
                   customGridViewPhysics: NeverScrollableScrollPhysics(),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:tangan/pages/setting_page.dart';
 
 class LastUpdate extends StatelessWidget {
   final String date;
@@ -27,7 +28,7 @@ class LastUpdate extends StatelessWidget {
                 child: Text(
                   "Last Update ${DateFormat('dd MMMM yyyy').format(DateTime.parse(date))}",
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.black38),
+                  style: TextStyle(color: isDark ? Colors.white : Colors.black54),
                 ),
               ),
             ],
@@ -40,13 +41,13 @@ class LastUpdate extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
-              Text('NoirDev', style: TextStyle(color: Colors.black54)),
+              Text('Kelompok DevTangan', style: TextStyle(color:isDark ? Colors.white : Colors.black54, fontSize: 13)),
               GestureDetector(
                 onTap: () {
                   _launchURL('https://jojo.tirtagt.xyz/#project');
                 },
                 child: Text(
-                  'NoirDev',
+                  'Source Code',
                   style: TextStyle(fontSize: 13, color: Colors.lightBlueAccent),
                 ),
               ),

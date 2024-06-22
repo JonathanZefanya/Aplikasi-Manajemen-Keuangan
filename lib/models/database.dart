@@ -359,7 +359,7 @@ class AppDb extends _$AppDb {
     return query.watch();
   }
 
-  // Ngdapatin Daftar Transaksi PerBulan
+  // Ngedapatin Daftar Transaksi PerBulan
   Stream<List<Rekap>> getMonthlyRekaps() {
     final query = select(rekaps)..where((tbl) => tbl.isMonthly.equals(true));
 
