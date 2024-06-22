@@ -10,7 +10,13 @@ class ErrorMessage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Text("Waduuh\n$msg"),
+        Text("Koneksi Internet tidak ada\n$msg"),
+        Image.asset(
+          "assets/img/logo.png",
+          fit: BoxFit.cover,
+          width: 250,
+          height: 250,
+        ),
         OutlinedButton(
           onPressed: onPressed,
           child: Text(
