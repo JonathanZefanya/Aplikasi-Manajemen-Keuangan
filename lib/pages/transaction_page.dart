@@ -420,7 +420,7 @@ class _TransactionPageState extends State<TransactionPage> {
                                       builder: (context, child) {
                                         return Theme(
                                           data: Theme.of(context).copyWith(
-                                            colorScheme: ColorScheme.light(
+                                            colorScheme: ColorScheme.dark(
                                               primary: primary,
                                               onPrimary: base,
                                               onSurface:

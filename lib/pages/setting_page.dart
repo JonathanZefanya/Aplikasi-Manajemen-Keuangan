@@ -9,6 +9,8 @@ import 'package:tangan/pages/category_page.dart';
 import 'package:tangan/pages/home_page.dart';
 import 'package:tangan/pages/rekap_page.dart';
 import 'package:tangan/pages/exchange_page.dart';
+import 'package:tangan/pages/rekap_dollar.dart';
+
 class SettingPage extends StatefulWidget {
   const SettingPage({super.key});
 
@@ -622,7 +624,7 @@ class _SettingPageState extends State<SettingPage> {
                                       foregroundColor: Colors.black),
                                   onPressed: () {
                                     Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) => RekapPage(
+                                      builder: (context) => RekapDollar(
                                         r: 1,
                                       ),
                                     ));
