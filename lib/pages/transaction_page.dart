@@ -420,12 +420,17 @@ class _TransactionPageState extends State<TransactionPage> {
                                       builder: (context, child) {
                                         return Theme(
                                           data: Theme.of(context).copyWith(
-                                            colorScheme: ColorScheme.dark(
-                                              primary: primary,
-                                              onPrimary: base,
-                                              onSurface:
-                                                  isDark ? base : Colors.black,
-                                            ),
+                                            colorScheme: isDark
+                                              ? ColorScheme.dark(
+                                                primary: primary,
+                                                onPrimary: base,
+                                                onSurface: base,
+                                                )
+                                              : ColorScheme.light(
+                                                primary: primary,
+                                                onPrimary: base,
+                                                onSurface: Colors.black,
+                                                ),
                                             dialogBackgroundColor:
                                                 isDark ? card : Colors.white,
                                           ),

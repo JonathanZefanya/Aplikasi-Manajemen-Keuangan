@@ -120,7 +120,7 @@ class _HomePageState extends State<HomePage> {
                         Positioned(
                             child: Image.asset(
                           'assets/img/logo.png',
-                          width: 60,
+                          width: 100,
                         ))
                       ],
                     )),

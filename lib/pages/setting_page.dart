@@ -599,7 +599,7 @@ class _SettingPageState extends State<SettingPage> {
                                   }),
                             ]),
 
-                            // Laporan Keuangan konversi ke ruang negeri
+                            // Laporan Keuangan konversi ke luar negeri
                             SizedBox(height: 18),
                             Row(children: [
                               Container(
@@ -615,8 +615,8 @@ class _SettingPageState extends State<SettingPage> {
                               TextButton(
                                   child: Text(
                                     (lang == 0)
-                                        ? "Laporan Keuangan"
-                                        : 'Financial Report',
+                                        ? "Laporan Keuangan Ver Dollar"
+                                        : 'Financial Report Ver Dollar',
                                     style: TextStyle(
                                         color: isDark ? base : Colors.black),
                                   ),

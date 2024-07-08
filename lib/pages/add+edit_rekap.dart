@@ -167,15 +167,21 @@ class _AddEditRekapState extends State<AddEditRekap> {
                           initialEntryMode: DatePickerEntryMode.calendarOnly,
                           initialDate: DateTime.now(),
                           firstDate: DateTime(2020),
-                          lastDate: DateTime(2099),
+                          lastDate: DateTime(2100),
                           builder: (context, child) {
                             return Theme(
                               data: Theme.of(context).copyWith(
-                                colorScheme: ColorScheme.light(
-                                  primary: primary,
-                                  onPrimary: base,
-                                  onSurface: isDark ? base : Colors.black,
-                                ),
+                                            colorScheme: isDark
+                                              ? ColorScheme.dark(
+                                                primary: primary,
+                                                onPrimary: base,
+                                                onSurface: base,
+                                                )
+                                              : ColorScheme.light(
+                                                primary: primary,
+                                                onPrimary: base,
+                                                onSurface: Colors.black,
+                                                ),
                                 dialogBackgroundColor:
                                     isDark ? card : Colors.white,
                               ),
@@ -240,15 +246,21 @@ class _AddEditRekapState extends State<AddEditRekap> {
                           initialEntryMode: DatePickerEntryMode.calendarOnly,
                           initialDate: DateTime.now(),
                           firstDate: DateTime(2020),
-                          lastDate: DateTime(2099),
+                          lastDate: DateTime(2100),
                           builder: (context, child) {
                             return Theme(
                               data: Theme.of(context).copyWith(
-                                colorScheme: ColorScheme.light(
-                                  primary: primary,
-                                  onPrimary: base,
-                                  onSurface: isDark ? base : Colors.black,
-                                ),
+                                            colorScheme: isDark
+                                              ? ColorScheme.dark(
+                                                primary: primary,
+                                                onPrimary: base,
+                                                onSurface: base,
+                                                )
+                                              : ColorScheme.light(
+                                                primary: primary,
+                                                onPrimary: base,
+                                                onSurface: Colors.black,
+                                                ),
                                 dialogBackgroundColor:
                                     isDark ? card : Colors.white,
                               ),
