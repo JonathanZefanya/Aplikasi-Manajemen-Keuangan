@@ -22,7 +22,7 @@ Spesifikasi HP
 
 Credit:
 1. <a href="https://jojo.tirtagt.xyz" target="_blank">Jonathan Zefanya</a>
-2. Daffa Nur
+2. Daffa Nur Fakhri
 3. Rizky Aditya
 4. Daffa Danindra
 5. Arief Fahroza
