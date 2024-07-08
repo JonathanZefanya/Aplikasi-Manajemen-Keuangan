@@ -16,7 +16,7 @@ Fitur Yang Ada Adalah
 4. Report Rekap Excel
 5. Konversi Mata Uang (Dollar)
 
-Spesifikasi HP memadai
+Spesifikasi HP
 1. Android v8.0 keatas
 2. Ram 512 
 
