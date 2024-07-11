@@ -148,7 +148,7 @@ class _RekapDollarState extends State<RekapDollar> {
           child: Padding(
             padding: const EdgeInsets.fromLTRB(16, 50, 16, 16),
             child: Text(
-              (lang == 0) ? "Rekap" : "Report",
+              (lang == 0) ? "Rekap Dollar" : "Report Dollar",
               style: GoogleFonts.inder(
                 fontSize: 23,
                 color: base,

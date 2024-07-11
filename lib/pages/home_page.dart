@@ -156,7 +156,7 @@ class _HomePageState extends State<HomePage> {
                       GoogleFonts.inder(fontSize: 18, color: base),
                   locale: (lang == 0) ? 'id' : 'en',
                   // Atur Page Putih-Putih
-                  height: 205.0,
+                  height: 190.0,
                   selectedDateTime: selectedDate,
                   showIconBehindDayText: true,
                   customGridViewPhysics: NeverScrollableScrollPhysics(),

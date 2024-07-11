@@ -3,7 +3,6 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:pie_chart/pie_chart.dart';
-// import 'package:sisaku/colors.dart';
 import 'package:tangan/models/database.dart';
 import 'package:tangan/pages/category_page.dart';
 import 'package:tangan/pages/detail_rekaps.dart';
