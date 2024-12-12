@@ -58,7 +58,7 @@ class _SelectCurrencyState extends State<SelectCurrency> {
                 });
               },
               child:
-                  ItemCurrency(x, x.key == widget.currency.key ? true : false),
+                  ItemCurrency(x, x.key == widget.currency.key ? true : false, isDark: false,),
             );
           },
         ),

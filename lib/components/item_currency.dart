@@ -6,7 +6,7 @@ class ItemCurrency extends StatelessWidget {
   final Currency currency;
   final bool isSelect;
 
-  ItemCurrency(this.currency, this.isSelect);
+  ItemCurrency(this.currency, this.isSelect, {required bool isDark});
 
   @override
   Widget build(BuildContext context) {

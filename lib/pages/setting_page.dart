@@ -8,6 +8,7 @@ import 'package:tangan/pages/category_page.dart';
 import 'package:tangan/pages/home_page.dart';
 import 'package:tangan/pages/rekap_page.dart';
 import 'package:tangan/pages/exchange_page.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SettingPage extends StatefulWidget {
   const SettingPage({super.key});
@@ -24,6 +25,15 @@ class _SettingPageState extends State<SettingPage> {
     super.initState();
 
     loadData();
+  }
+
+  void _launchURL(String url) async {
+    Uri uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 
   @override
@@ -706,56 +716,72 @@ class _SettingPageState extends State<SettingPage> {
                               child: Column(
                                 children: [
                                   Text(
-                                    (lang == 0) ? "Ikuti Kami" : "Follow Us",
-                                    style: TextStyle(
-                                        color: isDark ? base : Colors.black),
+                                  (lang == 0) ? "Ikuti Kami" : "Follow Us",
+                                  style: TextStyle(
+                                    color: isDark ? base : Colors.black),
                                   ),
                                   SizedBox(height: 16),
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Container(
-                                        width: 40,
-                                        height: 40,
-                                        padding: EdgeInsets.all(5),
-                                        decoration: BoxDecoration(
-                                            color: primary,
-                                            borderRadius:
-                                                BorderRadius.circular(3)),
-                                        child: ImageIcon(
-                                          AssetImage(
-                                              "assets/img/mdi_instagram.png"),
-                                          color: Colors.white,
-                                        ),
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    GestureDetector(
+                                    onTap: () {
+                                      _launchURL('https://instagram.com/xeadesta/');
+                                    },
+                                    child: Container(
+                                      width: 40,
+                                      height: 40,
+                                      padding: EdgeInsets.all(5),
+                                      decoration: BoxDecoration(
+                                        color: primary,
+                                        borderRadius:
+                                          BorderRadius.circular(3)),
+                                      child: ImageIcon(
+                                      AssetImage(
+                                        "assets/img/mdi_instagram.png"),
+                                      color: Colors.white,
                                       ),
-                                      SizedBox(width: 20),
-                                      Container(
-                                          width: 40,
-                                          height: 40,
-                                          decoration: BoxDecoration(
-                                              color: primary,
-                                              borderRadius:
-                                                  BorderRadius.circular(3)),
-                                          child: Icon(
-                                            Icons.facebook_sharp,
-                                            color: base,
-                                            size: 27,
-                                          )),
-                                      SizedBox(width: 20),
-                                      Container(
-                                        width: 40,
-                                        height: 40,
-                                        padding: EdgeInsets.all(9),
-                                        decoration: BoxDecoration(
-                                            color: primary,
-                                            borderRadius:
-                                                BorderRadius.circular(3)),
-                                        child: ImageIcon(
-                                          AssetImage("assets/img/twitter.png"),
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ],
+                                    ),
+                                    ),
+                                    SizedBox(width: 20),
+                                    GestureDetector(
+                                    onTap: () {
+                                      _launchURL('https://www.facebook.com/pmeme.handal.94/');
+                                    },
+                                    child: Container(
+                                      width: 40,
+                                      height: 40,
+                                      decoration: BoxDecoration(
+                                        color: primary,
+                                        borderRadius:
+                                          BorderRadius.circular(3)),
+                                      child: Icon(
+                                        Icons.facebook_sharp,
+                                        color: base,
+                                        size: 27,
+                                      )),
+                                    ),
+                                    SizedBox(width: 20),
+                                    GestureDetector(
+                                    onTap: () {
+                                      _launchURL('https://www.linkedin.com/in/jonathan-natannael-zefanya-212b9b25a/');
+                                    },
+                                    child: Container(
+                                      width: 40,
+                                      height: 40,
+                                      padding: EdgeInsets.all(9),
+                                      decoration: BoxDecoration(
+                                        color: primary,
+                                        borderRadius:
+                                          BorderRadius.circular(3)),
+                                      child: Icon(
+                                        Icons.workspace_premium_sharp,
+                                        color: base,
+                                        size: 27,
+                                      )
+                                    ),
+                                    ),
+                                  ],
                                   ),
                                 ],
                               ),
