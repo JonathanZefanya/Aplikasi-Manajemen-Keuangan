@@ -9,7 +9,6 @@ import 'package:tangan/pages/category_page.dart';
 import 'package:tangan/pages/home_page.dart';
 import 'package:tangan/pages/rekap_page.dart';
 import 'package:tangan/pages/exchange_page.dart';
-import 'package:tangan/pages/rekap_dollar.dart';
 
 class SettingPage extends StatefulWidget {
   const SettingPage({super.key});
@@ -91,29 +90,31 @@ class _SettingPageState extends State<SettingPage> {
                             // ]),
                             // SizedBox(height: 18),
 
-                            // // Backup and Restore Data
-                            // Row(children: [
-                            //   Container(
-                            //       decoration: BoxDecoration(
-                            //           color: primary,
-                            //           borderRadius: BorderRadius.circular(3)),
-                            //       child: Icon(
-                            //         Icons.restore_page,
-                            //         color: base,
-                            //         size: 27,
-                            //       )),
-                            //   SizedBox(width: 20),
-                            //   TextButton(
-                            //       child: Text(
-                            //         "Backup dan Restore Data",
-                            //         style: TextStyle(
-                            //             color: isDark ? base : Colors.black),
-                            //       ),
-                            //       style: TextButton.styleFrom(
-                            //           foregroundColor: Colors.black),
-                            //       onPressed: () {}),
-                            // ]),
-                            // SizedBox(height: 18),
+                            // Backup and Restore Data
+                            Row(children: [
+                              Container(
+                                  decoration: BoxDecoration(
+                                      color: primary,
+                                      borderRadius: BorderRadius.circular(3)),
+                                  child: Icon(
+                                    Icons.restore_page,
+                                    color: base,
+                                    size: 27,
+                                  )),
+                              SizedBox(width: 20),
+                              TextButton(
+                                  child: Text(
+                                    "Backup dan Restore Data",
+                                    style: TextStyle(
+                                        color: isDark ? base : Colors.black),
+                                  ),
+                                  style: TextButton.styleFrom(
+                                      foregroundColor: Colors.black),
+                                  onPressed: () {}),
+                            ]),
+                            SizedBox(height: 18),
+
+                            // Clear All Data
                             Row(children: [
                               Container(
                                 decoration: BoxDecoration(
@@ -595,38 +596,6 @@ class _SettingPageState extends State<SettingPage> {
                                   onPressed: () {
                                     Navigator.of(context).push(MaterialPageRoute(
                                       builder: (context) => ExchangePage(),
-                                    ));
-                                  }),
-                            ]),
-
-                            // Laporan Keuangan konversi ke luar negeri
-                            SizedBox(height: 18),
-                            Row(children: [
-                              Container(
-                                  decoration: BoxDecoration(
-                                      color: primary,
-                                      borderRadius: BorderRadius.circular(3)),
-                                  child: Icon(
-                                    Icons.money,
-                                    color: base,
-                                    size: 27,
-                                  )),
-                              SizedBox(width: 20),
-                              TextButton(
-                                  child: Text(
-                                    (lang == 0)
-                                        ? "Laporan Keuangan Ver Dollar"
-                                        : 'Financial Report Ver Dollar',
-                                    style: TextStyle(
-                                        color: isDark ? base : Colors.black),
-                                  ),
-                                  style: TextButton.styleFrom(
-                                      foregroundColor: Colors.black),
-                                  onPressed: () {
-                                    Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) => RekapDollar(
-                                        r: 1,
-                                      ),
                                     ));
                                   }),
                             ]),

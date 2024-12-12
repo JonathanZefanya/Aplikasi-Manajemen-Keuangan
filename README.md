@@ -1,28 +1,16 @@
-# Aplikasi Tangan (cataTAN keuaGAN)
-Berfungsi untuk mencatat segala aktivitas keuangan
+# tangan
 
-Project ini merupakan tugas akhir dari matkul pemrograman mobile,
+A new Flutter project.
 
-Teknologi:
-1. Framework Flutter
-2. Dart
-3. SQLite
-4. API exchangerate.io (Konversi Mata Uang)
+## Getting Started
 
-Fitur Yang Ada Adalah
-1. Pemasukan Keuangan
-2. Pengeluaran Keuangan
-3. Rekapan Hasil Transaksi
-4. Report Rekap Excel
-5. Konversi Mata Uang (Dollar)
+This project is a starting point for a Flutter application.
 
-Spesifikasi HP
-1. Android v8.0 keatas
-2. Ram 512 
+A few resources to get you started if this is your first Flutter project:
 
-Credit:
-1. <a href="https://jojo.tirtagt.xyz" target="_blank">Jonathan Zefanya</a>
-2. Daffa Nur Fakhri
-3. Rizky Aditya
-4. Daffa Danindra
-5. Arief Fahroza
+- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
+- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+
+For help getting started with Flutter development, view the
+[online documentation](https://docs.flutter.dev/), which offers tutorials,
+samples, guidance on mobile development, and a full API reference.
