@@ -43,4 +43,4 @@ app.*.map.json
 /android/app/release
 
 # Datastore
-db_backup.sqlite
+*db_backup.sqlite
