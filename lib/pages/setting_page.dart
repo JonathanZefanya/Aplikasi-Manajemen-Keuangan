@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-// import 'package:sisaku/colors.dart';
 import 'package:tangan/models/database.dart';
 import 'package:tangan/pages/about.dart';
 import 'package:tangan/pages/category_page.dart';
@@ -110,7 +109,77 @@ class _SettingPageState extends State<SettingPage> {
                                   ),
                                   style: TextButton.styleFrom(
                                       foregroundColor: Colors.black),
-                                  onPressed: () {}),
+                                  onPressed: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          backgroundColor:
+                                              isDark ? dialog : Colors.white,
+                                          title: Text(
+                                            (lang == 0)
+                                                ? "Pilih Opsi"
+                                                : "Choose Option",
+                                            style: TextStyle(
+                                                color: isDark
+                                                    ? base
+                                                    : Colors.black),
+                                          ),
+                                          content: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                  database.backup();
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    SnackBar(
+                                                        content: Text(
+                                                      (lang == 0)
+                                                          ? 'Berhasil Backup Data'
+                                                          : 'Backup Data Success',
+                                                      style: GoogleFonts.inder(
+                                                          color: base),
+                                                    )),
+                                                  );
+                                                },
+                                                child: Text(
+                                                  (lang == 0) ? "Backup" : 'Backup',
+                                                  style: GoogleFonts.inder(
+                                                    color: isDark ? base : Colors.black,
+                                                  ),
+                                                ),
+                                              ),
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                  database.restore();
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    SnackBar(
+                                                        content: Text(
+                                                      (lang == 0)
+                                                          ? 'Berhasil Restore Data'
+                                                          : 'Restore Data Success',
+                                                      style: GoogleFonts.inder(
+                                                          color: base),
+                                                    )),
+                                                  );
+                                                },
+                                                child: Text(
+                                                  (lang == 0) ? "Restore" : 'Restore',
+                                                  style: GoogleFonts.inder(
+                                                    color: isDark ? base : Colors.black,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  }),
                             ]),
                             SizedBox(height: 18),
 

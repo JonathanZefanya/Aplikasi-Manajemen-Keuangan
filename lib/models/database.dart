@@ -6,7 +6,9 @@ import 'package:drift/native.dart';
 // import 'package:intl/intl.dart';
 
 import 'package:path_provider/path_provider.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:path/path.dart' as p;
+import 'package:permission_handler/permission_handler.dart';
 import 'package:tangan/models/category.dart';
 import 'package:tangan/models/transaction_with_category.dart';
 import 'package:tangan/models/transactions.dart';
@@ -977,6 +979,78 @@ class AppDb extends _$AppDb {
     });
   }
 
+  // Fungsi untuk meminta izin penyimpanan
+  Future<bool> _requestStoragePermission() async {
+    if (await Permission.storage.isGranted) {
+      return true;
+    }
+
+    final status = await Permission.manageExternalStorage.request();
+    return status.isGranted;
+  }
+  
+  // Fungsi untuk backup database
+  Future<void> backup() async {
+    try {
+      if (!await _requestStoragePermission()) {
+        throw Exception('Izin penyimpanan tidak diberikan.');
+      }
+
+      // Ambil path database
+      final dbFolder = await getApplicationDocumentsDirectory();
+      final dbPath = p.join(dbFolder.path, 'db.sqlite');
+
+      // Pastikan file database ada
+      final dbFile = File(dbPath);
+      if (!dbFile.existsSync()) {
+        throw Exception('Database tidak ditemukan di $dbPath');
+      }
+
+      // Gunakan file picker untuk memilih lokasi penyimpanan
+      String? outputDir = await FilePicker.platform.getDirectoryPath();
+      if (outputDir != null) {
+        final backupPath = p.join(outputDir, 'db_backup.sqlite');
+        await dbFile.copy(backupPath);
+        print('Backup berhasil! File disimpan di $backupPath');
+      } else {
+        print('Tidak ada direktori yang dipilih.');
+      }
+    } catch (e) {
+      print('Gagal melakukan backup: $e');
+    }
+  }
+
+  // Fungsi untuk restore database
+  Future<void> restore() async {
+    try {
+      if (!await _requestStoragePermission()) {
+        throw Exception('Izin penyimpanan tidak diberikan.');
+      }
+
+      // Ambil path database
+      final dbFolder = await getApplicationDocumentsDirectory();
+      final dbPath = p.join(dbFolder.path, 'db.sqlite');
+
+      // Buka file picker untuk memilih file backup
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['sqlite'],
+      );
+
+      if (result != null) {
+        // Ambil path backup
+        final backupPath = result.files.single.path!;
+
+        // Copy database ke path aplikasi
+        await File(backupPath).copy(dbPath);
+        print('Restore berhasil! Database telah disalin ke $dbPath');
+      } else {
+        print('Tidak ada file yang dipilih.');
+      }
+    } catch (e) {
+      print('Gagal melakukan restore: $e');
+    }
+  }
 }
 
 LazyDatabase _openConnection() {
