@@ -10,7 +10,8 @@ class ErrorMessage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Text("Koneksi Internet tidak ada\n$msg"),
+        // Text("Koneksi Internet tidak ada"),
+        // Text(msg),
         Image.asset(
           "assets/img/logo.png",
           fit: BoxFit.cover,
