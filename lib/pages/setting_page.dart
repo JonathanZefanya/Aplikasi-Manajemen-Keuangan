@@ -135,53 +135,68 @@ class _SettingPageState extends State<SettingPage> {
                                                     ? base
                                                     : Colors.black),
                                           ),
+                                          // content: Column(
+                                          //   mainAxisSize: MainAxisSize.min,
+                                          //   children: [
+                                          //     TextButton(
+                                          //       onPressed: () {
+                                          //         Navigator.of(context).pop();
+                                          //         database.backup();
+                                          //         ScaffoldMessenger.of(context)
+                                          //             .showSnackBar(
+                                          //           SnackBar(
+                                          //               content: Text(
+                                          //             (lang == 0)
+                                          //                 ? 'Berhasil Backup Data'
+                                          //                 : 'Backup Data Success',
+                                          //             style: GoogleFonts.inder(
+                                          //                 color: base),
+                                          //           )),
+                                          //         );
+                                          //       },
+                                          //       child: Text(
+                                          //         (lang == 0) ? "Backup" : 'Backup',
+                                          //         style: GoogleFonts.inder(
+                                          //           color: isDark ? base : Colors.black,
+                                          //         ),
+                                          //       ),
+                                          //     ),
+                                          //     TextButton(
+                                          //       onPressed: () {
+                                          //         Navigator.of(context).pop();
+                                          //         database.restore();
+                                          //         ScaffoldMessenger.of(context)
+                                          //             .showSnackBar(
+                                          //           SnackBar(
+                                          //               content: Text(
+                                          //             (lang == 0)
+                                          //                 ? 'Berhasil Restore Data'
+                                          //                 : 'Restore Data Success',
+                                          //             style: GoogleFonts.inder(
+                                          //                 color: base),
+                                          //           )),
+                                          //         );
+                                          //       },
+                                          //       child: Text(
+                                          //         (lang == 0) ? "Restore" : 'Restore',
+                                          //         style: GoogleFonts.inder(
+                                          //           color: isDark ? base : Colors.black,
+                                          //         ),
+                                          //       ),
+                                          //     ),
+                                          //   ],
+                                          // ),
+                                          
+                                          // Konten dalam sedang dalam pengembangan
                                           content: Column(
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
-                                              TextButton(
-                                                onPressed: () {
-                                                  Navigator.of(context).pop();
-                                                  database.backup();
-                                                  ScaffoldMessenger.of(context)
-                                                      .showSnackBar(
-                                                    SnackBar(
-                                                        content: Text(
-                                                      (lang == 0)
-                                                          ? 'Berhasil Backup Data'
-                                                          : 'Backup Data Success',
-                                                      style: GoogleFonts.inder(
-                                                          color: base),
-                                                    )),
-                                                  );
-                                                },
-                                                child: Text(
-                                                  (lang == 0) ? "Backup" : 'Backup',
-                                                  style: GoogleFonts.inder(
-                                                    color: isDark ? base : Colors.black,
-                                                  ),
-                                                ),
-                                              ),
-                                              TextButton(
-                                                onPressed: () {
-                                                  Navigator.of(context).pop();
-                                                  database.restore();
-                                                  ScaffoldMessenger.of(context)
-                                                      .showSnackBar(
-                                                    SnackBar(
-                                                        content: Text(
-                                                      (lang == 0)
-                                                          ? 'Berhasil Restore Data'
-                                                          : 'Restore Data Success',
-                                                      style: GoogleFonts.inder(
-                                                          color: base),
-                                                    )),
-                                                  );
-                                                },
-                                                child: Text(
-                                                  (lang == 0) ? "Restore" : 'Restore',
-                                                  style: GoogleFonts.inder(
-                                                    color: isDark ? base : Colors.black,
-                                                  ),
+                                              Text(
+                                                (lang == 0)
+                                                    ? "Maaf, fitur ini sedang dalam pengembangan"
+                                                    : "Sorry, this feature is under development",
+                                                style: GoogleFonts.inder(
+                                                  color: isDark ? base : Colors.black,
                                                 ),
                                               ),
                                             ],

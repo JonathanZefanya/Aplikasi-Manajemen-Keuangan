@@ -5,8 +5,6 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:tangan/models/database.dart';
-
-// import 'package:sisaku/colors.dart';
 import 'package:tangan/models/transaction_with_category.dart';
 import 'package:tangan/pages/category_page.dart';
 import 'package:tangan/pages/home_page.dart';
