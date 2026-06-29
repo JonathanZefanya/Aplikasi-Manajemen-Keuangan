@@ -77,14 +77,10 @@ class _ExchangePageState extends State<ExchangePage> {
 
   getData() {
     setState(() {
-      var url = "https://api.freecurrencyapi.com/v1/latest?apikey=fca_live_NtT2hzNdOgxNj3PVdPLFb2sHsYommRq57yZYuCtz";
-      future = dio
-          .get(url, options: Options(headers: {
-            "apikey": "fca_live_NtT2hzNdOgxNj3PVdPLFb2sHsYommRq57yZYuCtz"
-          }))
-          .then((resp) => ExchangeRates.fromJson(resp.data));
+      var url = "https://open.er-api.com/v6/latest/USD";
+      future = dio.get(url).then((resp) => ExchangeRates.fromJson(resp.data));
 
-          print(url);
+      print(url);
     });
   }
 
@@ -92,37 +88,37 @@ class _ExchangePageState extends State<ExchangePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: PreferredSize(
-        preferredSize:
-            Size.fromHeight(MediaQuery.of(context).size.height * 0.20),
-        child: Container(
-          color: primary,
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(16, 50, 16, 16),
-            child: Row(
-              children: [
-                IconButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  icon: Icon(Icons.arrow_back_ios_new_sharp, color: base),
-                ),
-                Text(
-                  (lang == 0) ? "Kurs Mata Uang" : 'Convert Currency',
-                  style: GoogleFonts.inder(
-                    fontSize: 23,
-                    color: base,
+          preferredSize:
+              Size.fromHeight(MediaQuery.of(context).size.height * 0.20),
+          child: Container(
+            color: primary,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 50, 16, 16),
+              child: Row(
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    icon: Icon(Icons.arrow_back_ios_new_sharp, color: base),
                   ),
-                ),
-              ],  
+                  Text(
+                    (lang == 0) ? "Kurs Mata Uang" : 'Convert Currency',
+                    style: GoogleFonts.inder(
+                      fontSize: 23,
+                      color: base,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
         ),
         backgroundColor: isDark ? background : base,
         body: Padding(
           padding: const EdgeInsets.only(bottom: 54),
           child: FutureBuilder<ExchangeRates>(
-              future: future, 
+              future: future,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return showData(snapshot.data!);
@@ -143,7 +139,7 @@ class _ExchangePageState extends State<ExchangePage> {
                     strokeWidth: 2,
                   ));
                 }
-              }),     
+              }),
         ));
   }
 
@@ -174,8 +170,8 @@ class _ExchangePageState extends State<ExchangePage> {
                             child: ClipRRect(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(4)),
-                                child: Flag.fromString(
-                                    '${origin.flag}', width: 30, height: 40)),
+                                child: Flag.fromString('${origin.flag}',
+                                    width: 30, height: 40)),
                           ),
                         ),
                         Expanded(
@@ -278,7 +274,9 @@ class _ExchangePageState extends State<ExchangePage> {
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(3)),
                                     child: Flag.fromString(
-                                        '${destination.flag}', width: 30, height: 40)),
+                                        '${destination.flag}',
+                                        width: 30,
+                                        height: 40)),
                               ),
                               SizedBox(
                                 height: 16,
@@ -401,14 +399,11 @@ class _ExchangePageState extends State<ExchangePage> {
       setState(() {
         try {
           if (_controller.text.isNotEmpty) {
-            if (int.parse(_controller.text) > 0) {
-              if (isBase) {
-                resultConvert =
-                    (v.rates[destination.value]! * int.parse(_controller.text));
-              } else {
-                resultConvert =
-                    int.parse(_controller.text) / v.rates[origin.value]!;
-              }
+            final amount = double.parse(_controller.text);
+            if (amount > 0) {
+              final originRate = v.rates[origin.value] ?? 1;
+              final destinationRate = v.rates[destination.value] ?? 1;
+              resultConvert = amount / originRate * destinationRate;
             } else {
               resultConvert = 0;
             }
@@ -438,7 +433,6 @@ class _ExchangePageState extends State<ExchangePage> {
     //_bannerAd?.dispose();
     super.dispose();
   }
-  
 }
 
 class ConnectivityCheck extends StatefulWidget {

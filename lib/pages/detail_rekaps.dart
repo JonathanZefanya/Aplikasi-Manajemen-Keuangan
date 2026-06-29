@@ -276,32 +276,10 @@ class _DetailRekapsStat extends State<DetailRekap>
         " ~ " +
         DateFormat('dd-MMMM-yyyy', 'id_ID').format(dbEndDate).toString();
 
-    var totIncome = "Rp." +
-        (NumberFormat.currency(
-          locale: 'id',
-          decimalDigits: 0,
-        ).format(
-          totalIncome,
-        )).replaceAll('IDR', '');
-    var totExpense = "Rp." +
-        (NumberFormat.currency(
-          locale: 'id',
-          decimalDigits: 0,
-        ).format(
-          totalExpense,
-        )).replaceAll('IDR', '');
-    var dailyAverages = "Rp." +
-        (NumberFormat.currency(
-          locale: 'id',
-          decimalDigits: 0,
-        ).format(dailyAverage))
-            .replaceAll('IDR', '');
-    var totSisa = "Rp." +
-        (NumberFormat.currency(
-          locale: 'id',
-          decimalDigits: 0,
-        ).format(balance))
-            .replaceAll('IDR', '');
+    var totIncome = formatMoney(totalIncome);
+    var totExpense = formatMoney(totalExpense);
+    var dailyAverages = formatMoney(dailyAverage);
+    var totSisa = formatMoney(balance);
 
     sheet.getRangeByName('B1').setText(periode);
     sheet.getRangeByName('B2').setText(totIncome);
@@ -338,12 +316,7 @@ class _DetailRekapsStat extends State<DetailRekap>
     incomeCategory.forEach((inc) => {
           print(inc["name"]),
           incName.add(inc["name"]),
-          incAmount.add("Rp." +
-              (NumberFormat.currency(
-                locale: 'id',
-                decimalDigits: 0,
-              ).format(inc["totalAmount"]))
-                  .replaceAll('IDR', ''))
+          incAmount.add(formatMoney(inc["totalAmount"]))
         });
     print("isi Inc name $incName");
     print("isi Inc total Amount $incAmount");
@@ -376,12 +349,7 @@ class _DetailRekapsStat extends State<DetailRekap>
     expenseCategory.forEach((exp) => {
           print(exp["name"]),
           expName.add(exp["name"]),
-          expAmount.add("Rp." +
-              (NumberFormat.currency(
-                locale: 'id',
-                decimalDigits: 0,
-              ).format(exp["totalAmount"]))
-                  .replaceAll('IDR', ''))
+          expAmount.add(formatMoney(exp["totalAmount"]))
         });
     print("isi Exp name $expName");
     print("isi Exp total Amount $expAmount");
@@ -486,13 +454,7 @@ class _DetailRekapsStat extends State<DetailRekap>
       var dateTr = DateFormat('dd-MMMM-yyyy', (lang == 0) ? 'id_ID' : null)
           .format(tr.transaction.transaction_date)
           .toString();
-      var amounts = "Rp." +
-          (NumberFormat.currency(
-            locale: 'id',
-            decimalDigits: 0,
-          ).format(tr.transaction.amount))
-              .replaceAll('IDR', '')
-              .toString();
+      var amounts = formatMoney(tr.transaction.amount);
 
       date.add(dateTr);
       amount.add(amounts);
@@ -588,14 +550,18 @@ class _DetailRekapsStat extends State<DetailRekap>
                       TextButton(
                           onPressed: openExported,
                           child: Row(
-                             mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                            Text("Open",style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.w400,
-                            ),),
-                            SizedBox(width: 4),
-                            Icon(Icons.file_open, size: 23 , color: base)
-                          ]))
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text(
+                                  "Open",
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                                SizedBox(width: 4),
+                                Icon(Icons.file_open, size: 23, color: base)
+                              ]))
                     ],
                   ),
                   backgroundColor: primary,
@@ -612,7 +578,12 @@ class _DetailRekapsStat extends State<DetailRekap>
                     ),
                   )
                 : SizedBox.shrink(),
-          ).animate().fade().slide(duration: 400.ms).then().shake(duration: 7000.ms),
+          )
+              .animate()
+              .fade()
+              .slide(duration: 400.ms)
+              .then()
+              .shake(duration: 7000.ms),
         ],
         bottom: PreferredSize(
           preferredSize:
@@ -1140,15 +1111,10 @@ class _DetailRekapsStat extends State<DetailRekap>
                                                         print(
                                                             "amount $expenseAmount");
 
-                                                        // Convert to Rp
                                                         var amountString =
-                                                            (NumberFormat
-                                                                    .currency(
-                                                          locale: 'id',
-                                                          decimalDigits: 0,
-                                                        ).format(expenseAmount))
-                                                                .replaceAll(
-                                                                    'IDR', '');
+                                                            formatMoney(
+                                                                expenseAmount
+                                                                    as num);
 
                                                         // Kalo Pengeluaran
                                                         return SingleChildScrollView(
@@ -1166,13 +1132,11 @@ class _DetailRekapsStat extends State<DetailRekap>
                                                                         .toString(),
                                                                     style: TextStyle(
                                                                         color: isDark
-                                                                        
                                                                             ? base
                                                                             : home),
                                                                   ), // Nama kategori income
                                                                   Text(
-                                                                    "Rp." +
-                                                                        amountString,
+                                                                    amountString,
                                                                     style: TextStyle(
                                                                         color: isDark
                                                                             ? base
@@ -1184,7 +1148,8 @@ class _DetailRekapsStat extends State<DetailRekap>
                                                                   height: 7),
                                                               LinearPercentIndicator(
                                                                 animation: true,
-                                                                animationDuration: 500,
+                                                                animationDuration:
+                                                                    500,
                                                                 width: MediaQuery.of(
                                                                             context)
                                                                         .size
@@ -1270,15 +1235,10 @@ class _DetailRekapsStat extends State<DetailRekap>
                                                                     index]![
                                                                 "totalAmount"];
 
-                                                        // Convert to Rp
                                                         var amountString =
-                                                            (NumberFormat
-                                                                    .currency(
-                                                          locale: 'id',
-                                                          decimalDigits: 0,
-                                                        ).format(incomeAmount))
-                                                                .replaceAll(
-                                                                    'IDR', '');
+                                                            formatMoney(
+                                                                incomeAmount
+                                                                    as num);
 
                                                         // Kalo Pengeluaran
                                                         return SingleChildScrollView(
@@ -1300,8 +1260,7 @@ class _DetailRekapsStat extends State<DetailRekap>
                                                                             : home),
                                                                   ), // Nama kategori income
                                                                   Text(
-                                                                    "Rp." +
-                                                                        amountString,
+                                                                    amountString,
                                                                     style: TextStyle(
                                                                         color: isDark
                                                                             ? base
@@ -1313,7 +1272,8 @@ class _DetailRekapsStat extends State<DetailRekap>
                                                                   height: 7),
                                                               LinearPercentIndicator(
                                                                 animation: true,
-                                                                animationDuration: 500,
+                                                                animationDuration:
+                                                                    500,
                                                                 width: MediaQuery.of(
                                                                             context)
                                                                         .size
@@ -1515,25 +1475,31 @@ class _DetailRekapsStat extends State<DetailRekap>
                                                                     ],
                                                                   ),
                                                                   Text(
-                                                                  ((snapshot.data![index].category.type == 1) ? '+' : '-') +  'Rp. ' +
-                                                                        (NumberFormat
-                                                                                .currency(
-                                                                          locale:
-                                                                              'id',
-                                                                          decimalDigits:
-                                                                              0,
-                                                                        )
-                                                                            .format(
-                                                                          snapshot
+                                                                    formatMoney(
+                                                                      snapshot.data![index].category.type ==
+                                                                              1
+                                                                          ? snapshot
+                                                                              .data![
+                                                                                  index]
+                                                                              .transaction
+                                                                              .amount
+                                                                          : -snapshot
                                                                               .data![index]
                                                                               .transaction
                                                                               .amount,
-                                                                        )).replaceAll(
-                                                                            'IDR',
-                                                                            ''),
+                                                                      withSign:
+                                                                          true,
+                                                                    ),
                                                                     style: TextStyle(
-
-                                                                        color: (snapshot.data![index].category.type == 1) ? Colors.green : Color.fromARGB(255, 231, 44, 31)),
+                                                                        color: (snapshot.data![index].category.type ==
+                                                                                1)
+                                                                            ? Colors
+                                                                                .green
+                                                                            : Color.fromARGB(
+                                                                                255,
+                                                                                231,
+                                                                                44,
+                                                                                31)),
                                                                   ),
                                                                 ],
                                                               ),
@@ -1543,8 +1509,10 @@ class _DetailRekapsStat extends State<DetailRekap>
                                                                         .spaceEvenly,
                                                                 children: [
                                                                   LinearPercentIndicator(
-                                                                    animation: true,
-                                                                    animationDuration: 500,
+                                                                    animation:
+                                                                        true,
+                                                                    animationDuration:
+                                                                        500,
                                                                     width: MediaQuery.of(context)
                                                                             .size
                                                                             .width *

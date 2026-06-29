@@ -9,7 +9,11 @@ import 'package:tangan/pages/home_page.dart';
 import 'package:tangan/pages/main_page.dart';
 import 'package:tangan/pages/rekap_page.dart';
 import 'package:tangan/pages/exchange_page.dart';
+import 'package:tangan/pages/select_currency.dart';
+import 'package:tangan/utils/currency_settings.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+export 'package:tangan/utils/currency_settings.dart';
 
 class SettingPage extends StatefulWidget {
   const SettingPage({super.key});
@@ -154,6 +158,48 @@ class _SettingPageState extends State<SettingPage> {
         );
       },
     );
+  }
+
+  Future<void> _selectDisplayCurrency() async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SelectCurrency(
+          currency: CurrencySettings.selectedCurrency(),
+        ),
+      ),
+    );
+
+    if (result == null) return;
+
+    _showLoadingDialog(
+      (lang == 0) ? 'Memperbarui kurs...' : 'Updating exchange rates...',
+    );
+
+    try {
+      if (result.value != CurrencySettings.baseCode) {
+        await CurrencySettings.refreshRates();
+      }
+      await CurrencySettings.saveSelectedCurrency(result);
+      if (!mounted) return;
+      Navigator.of(context, rootNavigator: true).pop('dialog');
+      setState(() {});
+      _showSnackBar(
+        (lang == 0)
+            ? 'Mata uang tampilan diubah ke ${result.value}'
+            : 'Display currency changed to ${result.value}',
+      );
+    } catch (e) {
+      if (!mounted) return;
+      Navigator.of(context, rootNavigator: true).pop('dialog');
+      setState(() {});
+      _showSnackBar(
+        (lang == 0)
+            ? 'Kurs gagal diperbarui: $e'
+            : 'Rates failed to update: $e',
+        isError: true,
+      );
+    }
   }
 
   @override
@@ -696,6 +742,38 @@ class _SettingPageState extends State<SettingPage> {
                                       },
                                     );
                                   }),
+                            ]),
+
+                            // Display Currency
+                            SizedBox(height: 18),
+                            Row(children: [
+                              Container(
+                                  decoration: BoxDecoration(
+                                      color: primary,
+                                      borderRadius: BorderRadius.circular(3)),
+                                  child: Icon(
+                                    Icons.payments_rounded,
+                                    color: base,
+                                    size: 27,
+                                  )),
+                              SizedBox(width: 20),
+                              Expanded(
+                                child: TextButton(
+                                    child: Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(
+                                        (lang == 0)
+                                            ? "Mata Uang Tampilan (${CurrencySettings.selectedCode})"
+                                            : 'Display Currency (${CurrencySettings.selectedCode})',
+                                        style: TextStyle(
+                                            color:
+                                                isDark ? base : Colors.black),
+                                      ),
+                                    ),
+                                    style: TextButton.styleFrom(
+                                        foregroundColor: Colors.black),
+                                    onPressed: _selectDisplayCurrency),
+                              ),
                             ]),
 
                             // Convert Money

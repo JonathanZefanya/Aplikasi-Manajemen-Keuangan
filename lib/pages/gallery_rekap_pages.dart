@@ -230,13 +230,7 @@ class _GalleryRekapPageState extends State<GalleryRekapPage> {
                                                                                               ),
                                                                                             ),
                                                                                             Text(
-                                                                                              'Rp. ' +
-                                                                                                  (NumberFormat.currency(
-                                                                                                    locale: 'id',
-                                                                                                    decimalDigits: 0,
-                                                                                                  ).format(
-                                                                                                    e.transaction.amount,
-                                                                                                  )).replaceAll('IDR', ''),
+                                                                                              formatMoney(e.transaction.amount),
                                                                                               style: GoogleFonts.inder(
                                                                                                 fontSize: 14,
                                                                                                 color: base,
@@ -349,8 +343,16 @@ class _GalleryRekapPageState extends State<GalleryRekapPage> {
                                                                   ),
                                                                 ),
                                                               ],
-                                                            ).animate().fadeIn().then().slide().then().shakeY(duration: 270.ms, amount: 2 )
                                                             )
+                                                                .animate()
+                                                                .fadeIn()
+                                                                .then()
+                                                                .slide()
+                                                                .then()
+                                                                .shakeY(
+                                                                    duration:
+                                                                        270.ms,
+                                                                    amount: 2))
                                                         .toList()
                                                         .toSet()
                                                         .toList(),

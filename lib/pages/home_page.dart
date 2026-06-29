@@ -130,7 +130,7 @@ class _HomePageState extends State<HomePage> {
         : Scaffold(
             appBar: PreferredSize(
               preferredSize:
-              // Atur page Calendar home
+                  // Atur page Calendar home
                   Size.fromHeight(MediaQuery.of(context).size.height * 0.50),
               child: Container(
                 padding: EdgeInsets.fromLTRB(20, 15, 20, 5),
@@ -204,20 +204,8 @@ class _HomePageState extends State<HomePage> {
                               padding: const EdgeInsets.fromLTRB(18, 20, 16, 5),
                               child: Text(
                                 (lang == 0)
-                                    ? 'Sisa Uang Kamu : Rp. ' +
-                                        (NumberFormat.currency(
-                                          locale: 'id',
-                                          decimalDigits: 0,
-                                        ).format(
-                                          rest,
-                                        )).replaceAll('IDR', '')
-                                    : 'Balance : Rp. ' +
-                                        (NumberFormat.currency(
-                                          locale: 'id',
-                                          decimalDigits: 0,
-                                        ).format(
-                                          rest,
-                                        )).replaceAll('IDR', ''),
+                                    ? 'Sisa Uang Kamu : ${formatMoney(rest)}'
+                                    : 'Balance : ${formatMoney(rest)}',
                                 style: GoogleFonts.inder(
                                     fontWeight: FontWeight.w500,
                                     fontSize: 20,
@@ -271,13 +259,7 @@ class _HomePageState extends State<HomePage> {
                                               height: 5,
                                             ),
                                             Text(
-                                              'Rp. ' +
-                                                  (NumberFormat.currency(
-                                                    locale: 'id',
-                                                    decimalDigits: 0,
-                                                  ).format(
-                                                    totalAmount1,
-                                                  )).replaceAll('IDR', ''),
+                                              formatMoney(totalAmount1),
                                               style: GoogleFonts.inder(
                                                 color: base,
                                                 fontSize: 14,
@@ -321,13 +303,7 @@ class _HomePageState extends State<HomePage> {
                                               height: 5,
                                             ),
                                             Text(
-                                              'Rp. ' +
-                                                  (NumberFormat.currency(
-                                                    locale: 'id',
-                                                    decimalDigits: 0,
-                                                  ).format(
-                                                    totalAmount2,
-                                                  )).replaceAll('IDR', ''),
+                                              formatMoney(totalAmount2),
                                               style: GoogleFonts.inder(
                                                 color: base,
                                                 fontSize: 14,
@@ -481,20 +457,10 @@ class _HomePageState extends State<HomePage> {
                                                                 ),
                                                         ),
                                                         title: Text(
-                                                          'Rp. ' +
-                                                              (NumberFormat
-                                                                  .currency(
-                                                                locale: 'id',
-                                                                decimalDigits:
-                                                                    0,
-                                                              ).format(
-                                                                snapshot
-                                                                    .data![
-                                                                        index]
-                                                                    .transaction
-                                                                    .amount,
-                                                              )).replaceAll(
-                                                                  'IDR', ''),
+                                                          formatMoney(snapshot
+                                                              .data![index]
+                                                              .transaction
+                                                              .amount),
                                                           style: TextStyle(
                                                               color: isDark
                                                                   ? base

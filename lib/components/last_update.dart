@@ -8,6 +8,12 @@ class LastUpdate extends StatelessWidget {
 
   LastUpdate({required this.date});
 
+  String _formatDate() {
+    final parsedDate = DateTime.tryParse(date);
+    if (parsedDate == null) return date;
+    return DateFormat('dd MMMM yyyy').format(parsedDate);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -26,9 +32,10 @@ class LastUpdate extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 4),
                 child: Text(
-                  "Last Update ${DateFormat('dd MMMM yyyy').format(DateTime.parse(date))}",
+                  "Last Update ${_formatDate()}",
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: isDark ? Colors.white : Colors.black54),
+                  style:
+                      TextStyle(color: isDark ? Colors.white : Colors.black54),
                 ),
               ),
             ],
@@ -41,7 +48,10 @@ class LastUpdate extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
-              Text('Kelompok DevTangan', style: TextStyle(color:isDark ? Colors.white : Colors.black54, fontSize: 13)),
+              Text('Kelompok DevTangan',
+                  style: TextStyle(
+                      color: isDark ? Colors.white : Colors.black54,
+                      fontSize: 13)),
               GestureDetector(
                 onTap: () {
                   _launchURL('https://jojo.tirtagt.xyz/#project');

@@ -847,7 +847,6 @@ class _RekapPageState extends State<RekapPage> {
                                                           .data![index]
                                                           .endDate);
 
-
                                               while (isUpdate == false) {
                                                 update(
                                                     snapshot.data![index].id,
@@ -858,15 +857,16 @@ class _RekapPageState extends State<RekapPage> {
 
                                                 isUpdate = true;
                                               }
-                                               // Update
-                                                Future.delayed(Duration(seconds: 2));
-                                                update(
-                                                    snapshot.data![index].id,
-                                                    snapshot
-                                                        .data![index].startDate,
-                                                    snapshot
-                                                        .data![index].endDate);
-                                                isUpdate = true;
+                                              // Update
+                                              Future.delayed(
+                                                  Duration(seconds: 2));
+                                              update(
+                                                  snapshot.data![index].id,
+                                                  snapshot
+                                                      .data![index].startDate,
+                                                  snapshot
+                                                      .data![index].endDate);
+                                              isUpdate = true;
 
                                               return Column(
                                                 children: [
@@ -875,7 +875,6 @@ class _RekapPageState extends State<RekapPage> {
                                                     mainAxisAlignment:
                                                         MainAxisAlignment.end,
                                                     children: [
-                                                      
                                                       Row(
                                                         children: [
                                                           Text(
@@ -902,7 +901,12 @@ class _RekapPageState extends State<RekapPage> {
                                                                     ? base
                                                                     : home),
                                                           ),
-                                                          SizedBox(width: MediaQuery.of(context).size.width * 0.20)
+                                                          SizedBox(
+                                                              width: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width *
+                                                                  0.20)
                                                         ],
                                                       ),
                                                       IconButton(
@@ -947,7 +951,9 @@ class _RekapPageState extends State<RekapPage> {
                                                               " ~ " +
                                                               endDate,
                                                           style: TextStyle(
-                                                            fontWeight: FontWeight.w800,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w800,
                                                               color: isDark
                                                                   ? base
                                                                   : home),
@@ -969,23 +975,20 @@ class _RekapPageState extends State<RekapPage> {
                                                                   : home),
                                                         ),
                                                         Text(
-                                                          "+ " + "Rp." +  
-                                                              (NumberFormat
-                                                                      .currency(
-                                                                locale: 'id',
-                                                                decimalDigits:
-                                                                    0,
-                                                              ).format(snapshot
-                                                                      .data![
-                                                                          index]
-                                                                      .totalIncome))
-                                                                  .replaceAll(
-                                                                      'IDR', '')
-                                                                  .toString(),
+                                                          formatMoney(
+                                                            snapshot
+                                                                    .data![
+                                                                        index]
+                                                                    .totalIncome ??
+                                                                0,
+                                                            withSign: true,
+                                                          ),
                                                           style: TextStyle(
-                                                              fontWeight: FontWeight.w700,
-
-                                                              color: Colors.green),
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700,
+                                                              color:
+                                                                  Colors.green),
                                                         ),
                                                       ]),
                                                   SizedBox(height: 15),
@@ -1004,22 +1007,24 @@ class _RekapPageState extends State<RekapPage> {
                                                                   : home),
                                                         ),
                                                         Text(
-                                                         "- " "Rp." +
-                                                              (NumberFormat
-                                                                      .currency(
-                                                                locale: 'id',
-                                                                decimalDigits:
-                                                                    0,
-                                                              ).format(snapshot
-                                                                      .data![
-                                                                          index]
-                                                                      .totalExpense))
-                                                                  .replaceAll(
-                                                                      'IDR', '')
-                                                                  .toString(),
+                                                          formatMoney(
+                                                            -(snapshot
+                                                                    .data![
+                                                                        index]
+                                                                    .totalExpense ??
+                                                                0),
+                                                            withSign: true,
+                                                          ),
                                                           style: TextStyle(
-                                                            fontWeight: FontWeight.w700,
-                                                              color: Color.fromARGB(255, 175, 36, 23)),
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700,
+                                                              color: Color
+                                                                  .fromARGB(
+                                                                      255,
+                                                                      175,
+                                                                      36,
+                                                                      23)),
                                                         ),
                                                       ]),
                                                   SizedBox(height: 15),
@@ -1038,39 +1043,35 @@ class _RekapPageState extends State<RekapPage> {
                                                                   : home),
                                                         ),
                                                         Text(
-                                                          "Rp." +
-                                                              (NumberFormat
-                                                                      .currency(
-                                                                locale: 'id',
-                                                                decimalDigits:
-                                                                    0,
-                                                              ).format(snapshot
-                                                                      .data![
-                                                                          index]
-                                                                      .sisa))
-                                                                  .replaceAll(
-                                                                      'IDR', '')
-                                                                  .toString(),
+                                                          formatMoney(snapshot
+                                                              .data![index]
+                                                              .sisa!),
                                                           style: TextStyle(
-                                                            fontWeight: FontWeight.w800,
-                                                              color:
-                                                              (snapshot
-                                                                      .data![
-                                                                          index]
-                                                                      .sisa! < 0) ? Colors.redAccent: primary
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w800,
+                                                              color: (snapshot
+                                                                          .data![
+                                                                              index]
+                                                                          .sisa! <
+                                                                      0)
+                                                                  ? Colors
+                                                                      .redAccent
+                                                                  : primary
                                                               // isDark
                                                               //     ? base
                                                               //     : home
-                                                                  
-                                                                  ),
+
+                                                              ),
                                                         ),
                                                       ]),
                                                   SizedBox(height: 30),
                                                 ],
-                                              ).animate()
-                                                        .fade(begin: 0.5)
-                                                        .then()
-                                                        .slideX(begin: 0.7);
+                                              )
+                                                  .animate()
+                                                  .fade(begin: 0.5)
+                                                  .then()
+                                                  .slideX(begin: 0.7);
                                             },
                                           );
                                         } else {
@@ -1164,17 +1165,16 @@ class _RekapPageState extends State<RekapPage> {
                                                           .data![index]
                                                           .endDate);
 
-
-                                                // Update Jika ada perubahan transaksi
-                                                Future.delayed(Duration(seconds: 2));
-                                                update(
-                                                    snapshot.data![index].id,
-                                                    snapshot
-                                                        .data![index].startDate,
-                                                    snapshot
-                                                        .data![index].endDate);
-                                                isUpdate = true;
-                                              
+                                              // Update Jika ada perubahan transaksi
+                                              Future.delayed(
+                                                  Duration(seconds: 2));
+                                              update(
+                                                  snapshot.data![index].id,
+                                                  snapshot
+                                                      .data![index].startDate,
+                                                  snapshot
+                                                      .data![index].endDate);
+                                              isUpdate = true;
 
                                               return Column(
                                                 children: [
@@ -1186,17 +1186,17 @@ class _RekapPageState extends State<RekapPage> {
                                                     children: [
                                                       Row(
                                                         children: [
-                                                      //     IconButton(onPressed: () {
-                                                      //   update(
-                                                      //     snapshot.data![index].id,
-                                                      //     snapshot
-                                                      //         .data![index].startDate,
-                                                      //     snapshot
-                                                      //         .data![index].endDate);
+                                                          //     IconButton(onPressed: () {
+                                                          //   update(
+                                                          //     snapshot.data![index].id,
+                                                          //     snapshot
+                                                          //         .data![index].startDate,
+                                                          //     snapshot
+                                                          //         .data![index].endDate);
 
-                                                      // isUpdate = true;
-                                                      // }, icon: Icon(Icons.replay_rounded, color: primary)),
-                                                          
+                                                          // isUpdate = true;
+                                                          // }, icon: Icon(Icons.replay_rounded, color: primary)),
+
                                                           Text(
                                                             snapshot
                                                                 .data![index]
@@ -1373,7 +1373,9 @@ class _RekapPageState extends State<RekapPage> {
                                                               " ~ " +
                                                               endDate,
                                                           style: TextStyle(
-                                                            fontWeight: FontWeight.w800,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w800,
                                                               color: isDark
                                                                   ? base
                                                                   : home),
@@ -1390,25 +1392,25 @@ class _RekapPageState extends State<RekapPage> {
                                                               ? "Total Pemasukan "
                                                               : "Total Income",
                                                           style: TextStyle(
-                                                              color: isDark ? base : home),
+                                                              color: isDark
+                                                                  ? base
+                                                                  : home),
                                                         ),
                                                         Text(
-                                                        "+" +  "Rp." +
-                                                              (NumberFormat
-                                                                      .currency(
-                                                                locale: 'id',
-                                                                decimalDigits:
-                                                                    0,
-                                                              ).format(snapshot
-                                                                      .data![
-                                                                          index]
-                                                                      .totalIncome))
-                                                                  .replaceAll(
-                                                                      'IDR', '')
-                                                                  .toString(),
+                                                          formatMoney(
+                                                            snapshot
+                                                                    .data![
+                                                                        index]
+                                                                    .totalIncome ??
+                                                                0,
+                                                            withSign: true,
+                                                          ),
                                                           style: TextStyle(
-                                                            fontWeight: FontWeight.w700,
-                                                              color: Colors.green),
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700,
+                                                              color:
+                                                                  Colors.green),
                                                         ),
                                                       ]),
                                                   SizedBox(height: 15),
@@ -1427,22 +1429,24 @@ class _RekapPageState extends State<RekapPage> {
                                                                   : home),
                                                         ),
                                                         Text(
-                                                       "-" +   "Rp." +
-                                                              (NumberFormat
-                                                                      .currency(
-                                                                locale: 'id',
-                                                                decimalDigits:
-                                                                    0,
-                                                              ).format(snapshot
-                                                                      .data![
-                                                                          index]
-                                                                      .totalExpense))
-                                                                  .replaceAll(
-                                                                      'IDR', '')
-                                                                  .toString(),
+                                                          formatMoney(
+                                                            -(snapshot
+                                                                    .data![
+                                                                        index]
+                                                                    .totalExpense ??
+                                                                0),
+                                                            withSign: true,
+                                                          ),
                                                           style: TextStyle(
-                                                            fontWeight: FontWeight.w700,
-                                                              color: Color.fromARGB(255, 175, 36, 23)),
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700,
+                                                              color: Color
+                                                                  .fromARGB(
+                                                                      255,
+                                                                      175,
+                                                                      36,
+                                                                      23)),
                                                         ),
                                                       ]),
                                                   SizedBox(height: 15),
@@ -1461,33 +1465,30 @@ class _RekapPageState extends State<RekapPage> {
                                                                   : home),
                                                         ),
                                                         Text(
-                                                          "Rp." +
-                                                              (NumberFormat
-                                                                      .currency(
-                                                                locale: 'id',
-                                                                decimalDigits:
-                                                                    0,
-                                                              ).format(snapshot
-                                                                      .data![
-                                                                          index]
-                                                                      .sisa))
-                                                                  .replaceAll(
-                                                                      'IDR', '')
-                                                                  .toString(),
+                                                          formatMoney(snapshot
+                                                              .data![index]
+                                                              .sisa!),
                                                           style: TextStyle(
-                                                            fontWeight:FontWeight.w700,
-                                                              color:  (snapshot
-                                                                      .data![
-                                                                          index]
-                                                                      .sisa! < 0) ? Colors.redAccent: primary),
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700,
+                                                              color: (snapshot
+                                                                          .data![
+                                                                              index]
+                                                                          .sisa! <
+                                                                      0)
+                                                                  ? Colors
+                                                                      .redAccent
+                                                                  : primary),
                                                         ),
                                                       ]),
                                                   SizedBox(height: 30),
                                                 ],
-                                              ).animate()
-                                                        .fade(begin: 0.5)
-                                                        .then()
-                                                        .slideX(begin: 0.7);
+                                              )
+                                                  .animate()
+                                                  .fade(begin: 0.5)
+                                                  .then()
+                                                  .slideX(begin: 0.7);
                                             },
                                           );
                                         } else {
@@ -1564,11 +1565,15 @@ class _RekapPageState extends State<RekapPage> {
                                         child: Icon(
                                           Icons.add,
                                           color: primary,
-                                        ).animate()
-                                        .fade(begin: 0.5)
-                                        .tint(color: base)
-                                        .shake(duration: 5000.ms),
-                                        ).animate().fadeIn(begin: 0.5).slideY(begin: 0.7, duration: 500.ms),
+                                        )
+                                            .animate()
+                                            .fade(begin: 0.5)
+                                            .tint(color: base)
+                                            .shake(duration: 5000.ms),
+                                      )
+                                          .animate()
+                                          .fadeIn(begin: 0.5)
+                                          .slideY(begin: 0.7, duration: 500.ms),
                                     ),
                                   ),
                                 ],

@@ -3,6 +3,7 @@ import 'package:tangan/models/currency.dart';
 import 'package:flutter/material.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:tangan/components/no_connection.dart';
+import 'package:tangan/pages/setting_page.dart';
 
 class SelectCurrency extends StatefulWidget {
   final Currency currency;
@@ -35,10 +36,10 @@ class _SelectCurrencyState extends State<SelectCurrency> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Select Currency",
-          style: TextStyle(color: Colors.black54),
+          (lang == 0) ? "Pilih Mata Uang" : "Select Currency",
+          style: TextStyle(color: isDark ? base : Colors.black54),
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: isDark ? background : Colors.white,
         elevation: 0,
         leading: InkWell(
           onTap: () {
@@ -46,7 +47,7 @@ class _SelectCurrencyState extends State<SelectCurrency> {
           },
           child: Icon(
             Icons.arrow_back,
-            color: Colors.black54,
+            color: isDark ? base : Colors.black54,
           ),
         ),
         actions: <Widget>[
@@ -58,13 +59,13 @@ class _SelectCurrencyState extends State<SelectCurrency> {
               padding: const EdgeInsets.only(right: 12),
               child: Icon(
                 Icons.close,
-                color: Colors.black54,
+                color: isDark ? base : Colors.black54,
               ),
             ),
           ),
         ],
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: isDark ? background : Colors.white,
       body: isConnected
           ? Padding(
               padding: const EdgeInsets.only(bottom: 54.0),
@@ -81,7 +82,7 @@ class _SelectCurrencyState extends State<SelectCurrency> {
                     child: ItemCurrency(
                       x,
                       x.key == widget.currency.key ? true : false,
-                      isDark: false,
+                      isDark: isDark,
                     ),
                   );
                 },
@@ -89,8 +90,7 @@ class _SelectCurrencyState extends State<SelectCurrency> {
             )
           : NoInternet(onPressed: () {
               _checkInternetConnection();
-            }
-            ),
+            }),
     );
   }
 }

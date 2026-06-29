@@ -54,10 +54,7 @@ class _DetailsState extends State<Details> {
         Text(
           (lang == 0) ? "Periode " : "Period",
           style: TextStyle(
-                                                         fontWeight: FontWeight.w800,
-                                                              color: isDark
-                                                                  ? base
-                                                                  : home),
+              fontWeight: FontWeight.w800, color: isDark ? base : home),
         ),
         Text(
           (lang == 0)
@@ -71,8 +68,8 @@ class _DetailsState extends State<Details> {
               : DateFormat('dd-MMMM-yyyy').format(widget.startDate).toString() +
                   " ~ " +
                   DateFormat('dd-MMMM-yyyy').format(widget.endDate).toString(),
-          style: TextStyle(fontWeight: FontWeight.w800,
-          color: isDark ? base : home),
+          style: TextStyle(
+              fontWeight: FontWeight.w800, color: isDark ? base : home),
         ),
       ]),
       SizedBox(height: 15),
@@ -82,17 +79,8 @@ class _DetailsState extends State<Details> {
           style: TextStyle(color: isDark ? base : home),
         ),
         Text(
-           "+ " + "Rp." +
-              (NumberFormat.currency(
-                locale: 'id',
-                decimalDigits: 0,
-              ).format(
-                widget.totalIncome,
-              )).replaceAll('IDR', ''),
-          style: TextStyle(
-                                                              fontWeight: FontWeight.w700,
-
-                                                              color: Colors.green),
+          formatMoney(widget.totalIncome, withSign: true),
+          style: TextStyle(fontWeight: FontWeight.w700, color: Colors.green),
         ),
       ]),
       SizedBox(height: 15),
@@ -102,16 +90,10 @@ class _DetailsState extends State<Details> {
           style: TextStyle(color: isDark ? base : home),
         ),
         Text(
-            "- " +"Rp." +
-              (NumberFormat.currency(
-                locale: 'id',
-                decimalDigits: 0,
-              ).format(
-                widget.totalExpense,
-              )).replaceAll('IDR', ''),
+          formatMoney(-widget.totalExpense, withSign: true),
           style: TextStyle(
-                                                            fontWeight: FontWeight.w700,
-                                                              color: Color.fromARGB(255, 175, 36, 23)),
+              fontWeight: FontWeight.w700,
+              color: Color.fromARGB(255, 175, 36, 23)),
         ),
       ]),
       SizedBox(height: 15),
@@ -121,16 +103,14 @@ class _DetailsState extends State<Details> {
           style: TextStyle(color: isDark ? base : home),
         ),
         Text(
-          ((widget.totalIncome > widget.totalExpense) ? '+' : '-') + "Rp." +
-              (NumberFormat.currency(
-                locale: 'id',
-                decimalDigits: 0,
-              ).format(
-                widget.dailyAverage,
-              )).replaceAll('IDR', ''),
+          formatMoney(
+            widget.totalIncome > widget.totalExpense
+                ? widget.dailyAverage
+                : -widget.dailyAverage,
+            withSign: true,
+          ),
           style: TextStyle(
-             fontWeight: FontWeight.w700,
-             color: isDark ? base : home),
+              fontWeight: FontWeight.w700, color: isDark ? base : home),
         ),
       ]),
       SizedBox(height: 15),
@@ -138,21 +118,13 @@ class _DetailsState extends State<Details> {
         Text(
           (lang == 0) ? "Sisa " : "Balance",
           style: TextStyle(
-            fontWeight:FontWeight.w700,
-            color: isDark ? base : home
-           ),
+              fontWeight: FontWeight.w700, color: isDark ? base : home),
         ),
         Text(
-          "Rp." +
-              (NumberFormat.currency(
-                locale: 'id',
-                decimalDigits: 0,
-              ).format(
-                widget.balance,
-              )).replaceAll('IDR', ''),
+          formatMoney(widget.balance),
           style: TextStyle(
-            fontWeight:FontWeight.w700,
-            color:  (widget.balance < 0) ? Colors.redAccent: primary),
+              fontWeight: FontWeight.w700,
+              color: (widget.balance < 0) ? Colors.redAccent : primary),
         ),
       ]),
       SizedBox(height: 27)

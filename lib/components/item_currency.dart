@@ -5,38 +5,39 @@ import 'package:flutter/material.dart';
 class ItemCurrency extends StatelessWidget {
   final Currency currency;
   final bool isSelect;
+  final bool isDark;
 
-  ItemCurrency(this.currency, this.isSelect, {required bool isDark});
+  ItemCurrency(this.currency, this.isSelect, {required this.isDark});
 
   @override
   Widget build(BuildContext context) {
+    final selectedColor = Colors.lightBlueAccent;
+    final primaryTextColor = isDark ? Colors.white : Color(0xff3b3f47);
+    final secondaryTextColor = isDark ? Colors.white70 : Colors.black38;
+    final borderColor = isDark ? Colors.white38 : Colors.black26;
+
     return Column(
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal:16, vertical: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: Row(
             children: <Widget>[
               Container(
                 height: 25,
                 width: 40,
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(
-                        Radius.circular(4))),
+                    borderRadius: BorderRadius.all(Radius.circular(4))),
                 child: ClipRRect(
-                    borderRadius: BorderRadius.all(
-                        Radius.circular(3)),
-                    child: Flag.fromString(
-                        '${currency.flag}',
-                        height: 25,
-                        width: 40)
-                        ),
+                    borderRadius: BorderRadius.all(Radius.circular(3)),
+                    child: Flag.fromString('${currency.flag}',
+                        height: 25, width: 40)),
               ),
               Padding(
-                padding: const EdgeInsets.only(left:16, right: 8),
+                padding: const EdgeInsets.only(left: 16, right: 8),
                 child: Text(
                   '${currency.text.split("-")[0].trim()}',
                   style: TextStyle(
-                      color: isSelect ? Colors.lightBlueAccent : Color(0xff3b3f47),
+                      color: isSelect ? selectedColor : primaryTextColor,
                       fontSize: 15,
                       fontWeight: FontWeight.w600),
                 ),
@@ -45,28 +46,32 @@ class ItemCurrency extends StatelessWidget {
                 child: Text(
                   '${currency.text.split("-")[1].trim()}',
                   style: TextStyle(
-                      color: isSelect ? Colors.lightBlueAccent : Colors.black38,
+                      color: isSelect ? selectedColor : secondaryTextColor,
                       fontSize: 14,
                       fontWeight: FontWeight.w300),
                 ),
               ),
-              isSelect ?
-              Icon(Icons.check_circle, color: Colors.lightBlueAccent,)
-              :Container(
-                width: 20,
-                height: 20,
-                margin: const EdgeInsets.only(right: 2),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.black26
-                  ),
-                  borderRadius: BorderRadius.all(Radius.circular(32))
-                ),
-              )
+              isSelect
+                  ? Icon(
+                      Icons.check_circle,
+                      color: selectedColor,
+                    )
+                  : Container(
+                      width: 20,
+                      height: 20,
+                      margin: const EdgeInsets.only(right: 2),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: borderColor),
+                          borderRadius: BorderRadius.all(Radius.circular(32))),
+                    )
             ],
           ),
         ),
-        Divider(indent: 12, endIndent: 12,)
+        Divider(
+          indent: 12,
+          endIndent: 12,
+          color: isDark ? Colors.white12 : Colors.black12,
+        )
       ],
     );
   }
