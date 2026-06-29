@@ -8,7 +8,6 @@ import 'package:drift/native.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:path/path.dart' as p;
-import 'package:permission_handler/permission_handler.dart';
 import 'package:tangan/models/category.dart';
 import 'package:tangan/models/transaction_with_category.dart';
 import 'package:tangan/models/transactions.dart';
@@ -17,6 +16,18 @@ import 'package:tangan/models/rekap.dart';
 import '../pages/setting_page.dart';
 
 part 'database.g.dart';
+
+class BackupRestoreResult {
+  const BackupRestoreResult({
+    required this.success,
+    required this.message,
+    this.path,
+  });
+
+  final bool success;
+  final String message;
+  final String? path;
+}
 
 @DriftDatabase(
   // relative import for the drift file. Drift also supports `package:`
@@ -356,7 +367,7 @@ class AppDb extends _$AppDb {
     final query = select(rekaps)..where((tbl) => tbl.isMonthly.equals(false));
     // query.
     // for (var rekap in query) {
-      
+
     // }
     return query.watch();
   }
@@ -628,7 +639,7 @@ class AppDb extends _$AppDb {
 
     double averageExpense = countExpense == 0 ? 0 : totalExpense / countExpense;
     double averageIncome = countIncome == 0 ? 0 : totalIncome / countIncome;
-    
+
     int sisa = totalIncome - totalExpense;
     // Insert ke dalam tabel rekaps dengan nilai yang dihitung
     return (update(rekaps)..where((tbl) => tbl.id.equals(id))).write(
@@ -821,9 +832,9 @@ class AppDb extends _$AppDb {
 
   // For Rekaps Details
 
-  // Inc Exp 
-   Future<Map<String, double>> getRekapIncExpPieChart(DateTime start, DateTime end) async {
- 
+  // Inc Exp
+  Future<Map<String, double>> getRekapIncExpPieChart(
+      DateTime start, DateTime end) async {
     Map<String, double> allIncExp = {};
 
     final query = await customSelect(
@@ -868,9 +879,9 @@ class AppDb extends _$AppDb {
     return allIncExp;
   }
 
-  
 // Expense Category Name
-  Future<Map<String, double>> getRekapExpPieChart(DateTime start, DateTime end) async {
+  Future<Map<String, double>> getRekapExpPieChart(
+      DateTime start, DateTime end) async {
     Map<String, double> rekapExp = {};
 
     final List<QueryRow> result = await customSelect(
@@ -906,7 +917,8 @@ class AppDb extends _$AppDb {
   }
 
   // Income Name For Piechart in Rekap Details
-  Future<Map<String, double>> getRekapIncPieChart(DateTime start, DateTime end) async {
+  Future<Map<String, double>> getRekapIncPieChart(
+      DateTime start, DateTime end) async {
     Map<String, double> rekapInc = {};
     // Query
     final List<QueryRow> result = await customSelect(
@@ -917,7 +929,7 @@ class AppDb extends _$AppDb {
       'AND type = 1 '
       'GROUP BY categories.name',
       readsFrom: {transactions, categories},
-       variables: [
+      variables: [
         Variable<DateTime>(start),
         Variable<DateTime>(end),
       ],
@@ -936,15 +948,16 @@ class AppDb extends _$AppDb {
     print("Isi datamap Income name by Rekaps : $rekapInc");
     return rekapInc;
   }
-  
+
 // All Transaction
-  Future<Map<String, double>> getTransactionRekapPieChart(DateTime start, DateTime end) async {
+  Future<Map<String, double>> getTransactionRekapPieChart(
+      DateTime start, DateTime end) async {
     // Lakukan query select
-    final List<Transaction> results = await(select(transactions)
-    ..where((transaction) => transaction.transaction_date.isBetweenValues(start, end)))
-    .get();
-      
-    
+    final List<Transaction> results = await (select(transactions)
+          ..where((transaction) =>
+              transaction.transaction_date.isBetweenValues(start, end)))
+        .get();
+
     // Buat map kosong
     Map<String, double> allTransactions = {};
 
@@ -953,11 +966,12 @@ class AppDb extends _$AppDb {
       // Masukkan data ke dalam map
       allTransactions[transaction.name] = transaction.amount.toDouble();
     }
-     print("Isi datamap All Transaction name by Rekaps : $allTransactions");
+    print("Isi datamap All Transaction name by Rekaps : $allTransactions");
     return allTransactions;
   }
 
-   Stream<List<TransactionWithCategory>> getGalleryRekap(DateTime start, DateTime end, int type) {
+  Stream<List<TransactionWithCategory>> getGalleryRekap(
+      DateTime start, DateTime end, int type) {
     // Lakukan query select
     final query = (select(transactions).join([
       innerJoin(
@@ -979,76 +993,114 @@ class AppDb extends _$AppDb {
     });
   }
 
-  // Fungsi untuk meminta izin penyimpanan
-  Future<bool> _requestStoragePermission() async {
-    if (await Permission.storage.isGranted) {
-      return true;
-    }
-
-    final status = await Permission.manageExternalStorage.request();
-    return status.isGranted;
-  }
-  
   // Fungsi untuk backup database
-  Future<void> backup() async {
+  Future<BackupRestoreResult> backup() async {
     try {
-      if (!await _requestStoragePermission()) {
-        throw Exception('Izin penyimpanan tidak diberikan.');
+      final now = DateTime.now();
+      final fileName =
+          'tangan_backup_${now.year}${now.month.toString().padLeft(2, '0')}${now.day.toString().padLeft(2, '0')}_${now.hour.toString().padLeft(2, '0')}${now.minute.toString().padLeft(2, '0')}${now.second.toString().padLeft(2, '0')}.sqlite';
+
+      final outputDir = await FilePicker.platform.getDirectoryPath();
+      if (outputDir == null) {
+        return const BackupRestoreResult(
+          success: false,
+          message: 'Backup dibatalkan.',
+        );
       }
 
-      // Ambil path database
-      final dbFolder = await getApplicationDocumentsDirectory();
-      final dbPath = p.join(dbFolder.path, 'db.sqlite');
+      final backupPath = p.join(outputDir, fileName);
+      final escapedPath = backupPath.replaceAll("'", "''");
+      await customStatement("VACUUM INTO '$escapedPath'");
 
-      // Pastikan file database ada
-      final dbFile = File(dbPath);
-      if (!dbFile.existsSync()) {
-        throw Exception('Database tidak ditemukan di $dbPath');
-      }
-
-      // Gunakan file picker untuk memilih lokasi penyimpanan
-      String? outputDir = await FilePicker.platform.getDirectoryPath();
-      if (outputDir != null) {
-        final backupPath = p.join(outputDir, 'db_backup.sqlite');
-        await dbFile.copy(backupPath);
-        print('Backup berhasil! File disimpan di $backupPath');
-      } else {
-        print('Tidak ada direktori yang dipilih.');
-      }
+      return BackupRestoreResult(
+        success: true,
+        message: 'Backup berhasil disimpan.',
+        path: backupPath,
+      );
     } catch (e) {
-      print('Gagal melakukan backup: $e');
+      return BackupRestoreResult(
+        success: false,
+        message: 'Gagal melakukan backup: $e',
+      );
     }
   }
 
   // Fungsi untuk restore database
-  Future<void> restore() async {
+  Future<BackupRestoreResult> restore() async {
     try {
-      if (!await _requestStoragePermission()) {
-        throw Exception('Izin penyimpanan tidak diberikan.');
-      }
-
-      // Ambil path database
-      final dbFolder = await getApplicationDocumentsDirectory();
-      final dbPath = p.join(dbFolder.path, 'db.sqlite');
-
       // Buka file picker untuk memilih file backup
       FilePickerResult? result = await FilePicker.platform.pickFiles(
-        type: FileType.custom,
-        allowedExtensions: ['sqlite'],
+        type: FileType.any,
       );
 
-      if (result != null) {
-        // Ambil path backup
-        final backupPath = result.files.single.path!;
-
-        // Copy database ke path aplikasi
-        await File(backupPath).copy(dbPath);
-        print('Restore berhasil! Database telah disalin ke $dbPath');
-      } else {
-        print('Tidak ada file yang dipilih.');
+      if (result == null || result.files.single.path == null) {
+        return const BackupRestoreResult(
+          success: false,
+          message: 'Restore dibatalkan.',
+        );
       }
+
+      final backupPath = result.files.single.path!;
+      final extension = p.extension(backupPath).toLowerCase();
+      if (extension != '.sqlite' && extension != '.db') {
+        return const BackupRestoreResult(
+          success: false,
+          message: 'Pilih file backup dengan ekstensi .sqlite atau .db.',
+        );
+      }
+
+      final backupFile = File(backupPath);
+      if (!backupFile.existsSync()) {
+        return const BackupRestoreResult(
+          success: false,
+          message: 'File backup tidak ditemukan.',
+        );
+      }
+
+      final dbFolder = await getApplicationDocumentsDirectory();
+      final dbPath = p.join(dbFolder.path, 'db.sqlite');
+      final dbFile = File(dbPath);
+      final rollbackPath = p.join(dbFolder.path, 'db_restore_rollback.sqlite');
+      final tempRestorePath = p.join(dbFolder.path, 'db_restore_temp.sqlite');
+      final tempRestoreFile = File(tempRestorePath);
+
+      if (tempRestoreFile.existsSync()) {
+        await tempRestoreFile.delete();
+      }
+      await backupFile.copy(tempRestorePath);
+
+      if (dbFile.existsSync()) {
+        await dbFile.copy(rollbackPath);
+      }
+
+      await close();
+      try {
+        if (dbFile.existsSync()) {
+          await dbFile.delete();
+        }
+        await tempRestoreFile.copy(dbPath);
+      } catch (_) {
+        final rollbackFile = File(rollbackPath);
+        if (rollbackFile.existsSync()) {
+          await rollbackFile.copy(dbPath);
+        }
+        rethrow;
+      } finally {
+        if (tempRestoreFile.existsSync()) {
+          await tempRestoreFile.delete();
+        }
+      }
+
+      return BackupRestoreResult(
+        success: true,
+        message: 'Restore berhasil. Data sudah dipulihkan.',
+        path: backupPath,
+      );
     } catch (e) {
-      print('Gagal melakukan restore: $e');
+      return BackupRestoreResult(
+        success: false,
+        message: 'Gagal melakukan restore: $e',
+      );
     }
   }
 }

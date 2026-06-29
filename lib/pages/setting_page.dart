@@ -6,6 +6,7 @@ import 'package:tangan/models/database.dart';
 import 'package:tangan/pages/about.dart';
 import 'package:tangan/pages/category_page.dart';
 import 'package:tangan/pages/home_page.dart';
+import 'package:tangan/pages/main_page.dart';
 import 'package:tangan/pages/rekap_page.dart';
 import 'package:tangan/pages/exchange_page.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -34,6 +35,125 @@ class _SettingPageState extends State<SettingPage> {
     } else {
       throw 'Could not launch $url';
     }
+  }
+
+  void _showSnackBar(String message, {bool isError = false}) {
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          message,
+          style: GoogleFonts.inder(color: base),
+        ),
+        backgroundColor: isError ? Colors.red : primary,
+      ),
+    );
+  }
+
+  void _showLoadingDialog(String message) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: isDark ? dialog : Colors.white,
+          content: Row(
+            children: [
+              CircularProgressIndicator(color: primary),
+              SizedBox(width: 20),
+              Expanded(
+                child: Text(
+                  message,
+                  style: GoogleFonts.inder(
+                    color: isDark ? base : Colors.black,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _runBackup() async {
+    Navigator.of(context, rootNavigator: true).pop('dialog');
+    _showLoadingDialog(
+        (lang == 0) ? 'Membuat backup...' : 'Creating backup...');
+
+    final result = await database.backup();
+
+    if (!mounted) return;
+    Navigator.of(context, rootNavigator: true).pop('dialog');
+
+    final successMessage = result.path == null
+        ? result.message
+        : '${result.message}\n${result.path}';
+    _showSnackBar(
+      result.success ? successMessage : result.message,
+      isError: !result.success,
+    );
+  }
+
+  Future<void> _runRestore() async {
+    Navigator.of(context, rootNavigator: true).pop('dialog');
+    _showLoadingDialog(
+      (lang == 0) ? 'Memulihkan data...' : 'Restoring data...',
+    );
+
+    final result = await database.restore();
+
+    if (!mounted) return;
+    Navigator.of(context, rootNavigator: true).pop('dialog');
+
+    _showSnackBar(result.message, isError: !result.success);
+
+    if (result.success) {
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => MainPage()),
+        (route) => false,
+      );
+    }
+  }
+
+  void _showBackupRestoreDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: isDark ? dialog : Colors.white,
+          title: Text(
+            (lang == 0) ? "Pilih Opsi" : "Choose Option",
+            style: TextStyle(color: isDark ? base : Colors.black),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading: Icon(Icons.backup_rounded, color: primary),
+                title: Text(
+                  (lang == 0) ? "Backup Data" : "Backup Data",
+                  style: GoogleFonts.inder(
+                    color: isDark ? base : Colors.black,
+                  ),
+                ),
+                onTap: _runBackup,
+              ),
+              ListTile(
+                leading: Icon(Icons.restore_rounded, color: primary),
+                title: Text(
+                  (lang == 0) ? "Restore Data" : "Restore Data",
+                  style: GoogleFonts.inder(
+                    color: isDark ? base : Colors.black,
+                  ),
+                ),
+                onTap: _runRestore,
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -119,92 +239,7 @@ class _SettingPageState extends State<SettingPage> {
                                   ),
                                   style: TextButton.styleFrom(
                                       foregroundColor: Colors.black),
-                                  onPressed: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return AlertDialog(
-                                          backgroundColor:
-                                              isDark ? dialog : Colors.white,
-                                          title: Text(
-                                            (lang == 0)
-                                                ? "Pilih Opsi"
-                                                : "Choose Option",
-                                            style: TextStyle(
-                                                color: isDark
-                                                    ? base
-                                                    : Colors.black),
-                                          ),
-                                          // content: Column(
-                                          //   mainAxisSize: MainAxisSize.min,
-                                          //   children: [
-                                          //     TextButton(
-                                          //       onPressed: () {
-                                          //         Navigator.of(context).pop();
-                                          //         database.backup();
-                                          //         ScaffoldMessenger.of(context)
-                                          //             .showSnackBar(
-                                          //           SnackBar(
-                                          //               content: Text(
-                                          //             (lang == 0)
-                                          //                 ? 'Berhasil Backup Data'
-                                          //                 : 'Backup Data Success',
-                                          //             style: GoogleFonts.inder(
-                                          //                 color: base),
-                                          //           )),
-                                          //         );
-                                          //       },
-                                          //       child: Text(
-                                          //         (lang == 0) ? "Backup" : 'Backup',
-                                          //         style: GoogleFonts.inder(
-                                          //           color: isDark ? base : Colors.black,
-                                          //         ),
-                                          //       ),
-                                          //     ),
-                                          //     TextButton(
-                                          //       onPressed: () {
-                                          //         Navigator.of(context).pop();
-                                          //         database.restore();
-                                          //         ScaffoldMessenger.of(context)
-                                          //             .showSnackBar(
-                                          //           SnackBar(
-                                          //               content: Text(
-                                          //             (lang == 0)
-                                          //                 ? 'Berhasil Restore Data'
-                                          //                 : 'Restore Data Success',
-                                          //             style: GoogleFonts.inder(
-                                          //                 color: base),
-                                          //           )),
-                                          //         );
-                                          //       },
-                                          //       child: Text(
-                                          //         (lang == 0) ? "Restore" : 'Restore',
-                                          //         style: GoogleFonts.inder(
-                                          //           color: isDark ? base : Colors.black,
-                                          //         ),
-                                          //       ),
-                                          //     ),
-                                          //   ],
-                                          // ),
-                                          
-                                          // Konten dalam sedang dalam pengembangan
-                                          content: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              Text(
-                                                (lang == 0)
-                                                    ? "Maaf, fitur ini sedang dalam pengembangan"
-                                                    : "Sorry, this feature is under development",
-                                                style: GoogleFonts.inder(
-                                                  color: isDark ? base : Colors.black,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        );
-                                      },
-                                    );
-                                  }),
+                                  onPressed: _showBackupRestoreDialog),
                             ]),
                             SizedBox(height: 18),
 
@@ -385,7 +420,6 @@ class _SettingPageState extends State<SettingPage> {
                                           content: Column(
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
-
                                               // Cyan (Default)
                                               RadioListTile.adaptive(
                                                 tileColor: isDark ? base : home,
@@ -479,7 +513,7 @@ class _SettingPageState extends State<SettingPage> {
                                               ),
 
                                               // Dark Aqua Marine
-                                            
+
                                               RadioListTile.adaptive(
                                                 tileColor: isDark ? base : home,
                                                 fillColor:
@@ -688,7 +722,8 @@ class _SettingPageState extends State<SettingPage> {
                                   style: TextButton.styleFrom(
                                       foregroundColor: Colors.black),
                                   onPressed: () {
-                                    Navigator.of(context).push(MaterialPageRoute(
+                                    Navigator.of(context)
+                                        .push(MaterialPageRoute(
                                       builder: (context) => ExchangePage(),
                                     ));
                                   }),
@@ -731,72 +766,74 @@ class _SettingPageState extends State<SettingPage> {
                               child: Column(
                                 children: [
                                   Text(
-                                  (lang == 0) ? "Ikuti Kami" : "Follow Us",
-                                  style: TextStyle(
-                                    color: isDark ? base : Colors.black),
+                                    (lang == 0) ? "Ikuti Kami" : "Follow Us",
+                                    style: TextStyle(
+                                        color: isDark ? base : Colors.black),
                                   ),
                                   SizedBox(height: 16),
                                   Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    GestureDetector(
-                                    onTap: () {
-                                      _launchURL('https://instagram.com/xeadesta/');
-                                    },
-                                    child: Container(
-                                      width: 40,
-                                      height: 40,
-                                      padding: EdgeInsets.all(5),
-                                      decoration: BoxDecoration(
-                                        color: primary,
-                                        borderRadius:
-                                          BorderRadius.circular(3)),
-                                      child: ImageIcon(
-                                      AssetImage(
-                                        "assets/img/mdi_instagram.png"),
-                                      color: Colors.white,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          _launchURL(
+                                              'https://instagram.com/xeadesta/');
+                                        },
+                                        child: Container(
+                                          width: 40,
+                                          height: 40,
+                                          padding: EdgeInsets.all(5),
+                                          decoration: BoxDecoration(
+                                              color: primary,
+                                              borderRadius:
+                                                  BorderRadius.circular(3)),
+                                          child: ImageIcon(
+                                            AssetImage(
+                                                "assets/img/mdi_instagram.png"),
+                                            color: Colors.white,
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                    ),
-                                    SizedBox(width: 20),
-                                    GestureDetector(
-                                    onTap: () {
-                                      _launchURL('https://www.facebook.com/pmeme.handal.94/');
-                                    },
-                                    child: Container(
-                                      width: 40,
-                                      height: 40,
-                                      decoration: BoxDecoration(
-                                        color: primary,
-                                        borderRadius:
-                                          BorderRadius.circular(3)),
-                                      child: Icon(
-                                        Icons.facebook_sharp,
-                                        color: base,
-                                        size: 27,
-                                      )),
-                                    ),
-                                    SizedBox(width: 20),
-                                    GestureDetector(
-                                    onTap: () {
-                                      _launchURL('https://www.linkedin.com/in/jonathan-natannael-zefanya-212b9b25a/');
-                                    },
-                                    child: Container(
-                                      width: 40,
-                                      height: 40,
-                                      padding: EdgeInsets.all(9),
-                                      decoration: BoxDecoration(
-                                        color: primary,
-                                        borderRadius:
-                                          BorderRadius.circular(3)),
-                                      child: Icon(
-                                        Icons.workspace_premium_sharp,
-                                        color: base,
-                                        size: 27,
-                                      )
-                                    ),
-                                    ),
-                                  ],
+                                      SizedBox(width: 20),
+                                      GestureDetector(
+                                        onTap: () {
+                                          _launchURL(
+                                              'https://www.facebook.com/pmeme.handal.94/');
+                                        },
+                                        child: Container(
+                                            width: 40,
+                                            height: 40,
+                                            decoration: BoxDecoration(
+                                                color: primary,
+                                                borderRadius:
+                                                    BorderRadius.circular(3)),
+                                            child: Icon(
+                                              Icons.facebook_sharp,
+                                              color: base,
+                                              size: 27,
+                                            )),
+                                      ),
+                                      SizedBox(width: 20),
+                                      GestureDetector(
+                                        onTap: () {
+                                          _launchURL(
+                                              'https://www.linkedin.com/in/jonathan-natannael-zefanya-212b9b25a/');
+                                        },
+                                        child: Container(
+                                            width: 40,
+                                            height: 40,
+                                            padding: EdgeInsets.all(9),
+                                            decoration: BoxDecoration(
+                                                color: primary,
+                                                borderRadius:
+                                                    BorderRadius.circular(3)),
+                                            child: Icon(
+                                              Icons.workspace_premium_sharp,
+                                              color: base,
+                                              size: 27,
+                                            )),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
