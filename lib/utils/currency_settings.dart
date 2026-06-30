@@ -83,7 +83,8 @@ class CurrencySettings {
 
   static String format(num amount, {bool withSign = false}) {
     final convertedAmount = convert(amount).abs();
-    final symbol = selectedCode == baseCode ? 'Rp ' : '$selectedCode ';
+    final selectedSymbol = selectedCurrency().symbol;
+    final symbol = selectedCode == baseCode ? 'Rp. ' : '$selectedSymbol ';
     final decimalDigits = selectedCode == baseCode ? 0 : 2;
     final formatted = NumberFormat.currency(
       locale: 'en_US',

@@ -1,6 +1,5 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:tangan/pages/category_page.dart';
@@ -27,9 +26,31 @@ class TransactionPage extends StatefulWidget {
   State<TransactionPage> createState() => _TransactionPageState();
 }
 
+class ThousandsSeparatorInputFormatter extends TextInputFormatter {
+  final NumberFormat _formatter = NumberFormat.decimalPattern('id_ID');
+
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
+    final digitsOnly = newValue.text.replaceAll(RegExp(r'[^0-9]'), '');
+    if (digitsOnly.isEmpty) {
+      return const TextEditingValue();
+    }
+
+    final formattedValue = _formatter.format(int.parse(digitsOnly));
+    return TextEditingValue(
+      text: formattedValue,
+      selection: TextSelection.collapsed(offset: formattedValue.length),
+    );
+  }
+}
+
 class _TransactionPageState extends State<TransactionPage> {
   late int type;
   final AppDb database = AppDb();
+  final NumberFormat _amountFormat = NumberFormat.decimalPattern('id_ID');
 
   TextEditingController dateController = TextEditingController();
   TextEditingController amountController = TextEditingController();
@@ -64,7 +85,7 @@ class _TransactionPageState extends State<TransactionPage> {
 
   void updateTransactionView(TransactionWithCategory transactionWithCategory) {
     amountController.text =
-        transactionWithCategory.transaction.amount.toString();
+        _amountFormat.format(transactionWithCategory.transaction.amount);
     deskripsiController.text = transactionWithCategory.transaction.name;
     dateController.text = DateFormat('dd-MMMM-yyyy')
         .format(transactionWithCategory.transaction.transaction_date);
@@ -73,6 +94,10 @@ class _TransactionPageState extends State<TransactionPage> {
     type = transactionWithCategory.category.type;
     selectedCategory = transactionWithCategory.category;
     imageLama = transactionWithCategory.transaction.image;
+  }
+
+  int _amountValue() {
+    return int.parse(amountController.text.replaceAll('.', ''));
   }
 
   Future insert(int amount, DateTime date, String deskripsi, int categoryId,
@@ -345,12 +370,21 @@ class _TransactionPageState extends State<TransactionPage> {
                                     color: isDark ? base : Colors.black),
                                 controller: amountController,
                                 keyboardType: TextInputType.number,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly,
+                                  ThousandsSeparatorInputFormatter(),
+                                ],
                                 cursorColor: primary,
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
                                     return (lang == 0)
                                         ? 'Jumlah uang tidak boleh kosong'
                                         : 'Amount cannot be empty';
+                                  }
+                                  if (value.replaceAll('.', '').isEmpty) {
+                                    return (lang == 0)
+                                        ? 'Jumlah uang tidak valid'
+                                        : 'Amount is invalid';
                                   }
                                   return null;
                                 },
@@ -421,16 +455,16 @@ class _TransactionPageState extends State<TransactionPage> {
                                         return Theme(
                                           data: Theme.of(context).copyWith(
                                             colorScheme: isDark
-                                              ? ColorScheme.dark(
-                                                primary: primary,
-                                                onPrimary: base,
-                                                onSurface: base,
-                                                )
-                                              : ColorScheme.light(
-                                                primary: primary,
-                                                onPrimary: base,
-                                                onSurface: Colors.black,
-                                                ),
+                                                ? ColorScheme.dark(
+                                                    primary: primary,
+                                                    onPrimary: base,
+                                                    onSurface: base,
+                                                  )
+                                                : ColorScheme.light(
+                                                    primary: primary,
+                                                    onPrimary: base,
+                                                    onSurface: Colors.black,
+                                                  ),
                                             dialogBackgroundColor:
                                                 isDark ? card : Colors.white,
                                           ),
@@ -723,8 +757,7 @@ class _TransactionPageState extends State<TransactionPage> {
                                                     .transactionWithCategory ==
                                                 null) {
                                               await insert(
-                                                int.parse(
-                                                    amountController.text),
+                                                _amountValue(),
                                                 DateTime.parse(dbDate),
                                                 deskripsiController.text,
                                                 selectedCategory!.id,
@@ -752,8 +785,7 @@ class _TransactionPageState extends State<TransactionPage> {
                                                       .transactionWithCategory!
                                                       .transaction
                                                       .id,
-                                                  int.parse(
-                                                      amountController.text),
+                                                  _amountValue(),
                                                   selectedCategory!.id,
                                                   DateTime.parse(dbDate),
                                                   deskripsiController.text,
